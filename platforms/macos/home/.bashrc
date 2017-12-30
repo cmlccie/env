@@ -54,13 +54,13 @@ if [[ $- == *i* ]]; then
 
 
     ### Shell Tools
-    ## virtualenvwrapper
-    source ~/.local/bin/virtualenvwrapper.sh
-
     ## pyenv
     if command -v pyenv 1>/dev/null 2>&1; then
         eval "$(pyenv init -)"
     fi
+
+    ## pew
+    source $(pew shell_config)
 
 
     ### Shell Completions

@@ -34,14 +34,13 @@ if status --is-login
 	## pip
 	#set -gx PIP_REQUIRE_VIRTUALENV true
 
+    ## pew
+    set -gx WORKON_HOME ~/.local/share/virtualenvs
+    set -gx PROJECT_HOME ~/dev/projects
+
 	## pipenv
 	set -gx PIPENV_VENV_IN_PROJECT 1
     set -gx PIPENV_SHELL_FANCY 1
-
-    ## virtualenvwrapper
-    #set -gx WORKON_HOME ~/dev/envs
-    #set -gx PROJECT_HOME ~/dev/projects
-    #set -gx VIRTUALENVWRAPPER_PYTHON /usr/local/bin/python3
 
 
 end
@@ -54,6 +53,8 @@ if status --is-interactive
     ## pyenv
     source (pyenv init -|psub)
 
+	## pew
+	source (pew shell_config)
 
     ### Interactive Environment Variable Management
     ## direnv

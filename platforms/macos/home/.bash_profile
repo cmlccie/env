@@ -35,13 +35,12 @@ if shopt -q login_shell; then
 	## pip
 	export PIP_REQUIRE_VIRTUALENV=true
 
+    ## pew
+    export WORKON_HOME=~/.local/share/virtualenvs
+    export PROJECT_HOME=~/dev/projects
+
 	## pipenv
 	export PIPENV_VENV_IN_PROJECT=1
-
-    ## virtualenvwrapper
-    export WORKON_HOME=~/dev/envs
-    export PROJECT_HOME=~/dev/projects
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
 
 
 fi

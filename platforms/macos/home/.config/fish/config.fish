@@ -3,8 +3,13 @@
 if status --is-login
 	# Login Shell - Initialize Global Environment Variables
 
-    ### Ensure SHELL is set to fish
+    ### Fish Shell Configuration
     set -gx SHELL /usr/local/bin/fish
+	set -gx LC_ALL en_US.UTF-8
+	set -gx LANG en_US.UTF-8
+	set -gx GREP_OPTIONS '--color auto'
+	set -gx theme_powerline_fonts yes
+	set -gx theme_nerd_fonts yes
 
 
 	### PATH Extensions
@@ -19,12 +24,6 @@ if status --is-login
 
 	### PYTHONPATH Extensions
 	set -gx PYTHONPATH ~/dev/lib $PYTHONPATH
-
-
-	### Console Configuration
-	set -gx LC_ALL en_US.UTF-8
-	set -gx LANG en_US.UTF-8
-	set -gx GREP_OPTIONS '--color auto'
 
 
 	### App Configuration

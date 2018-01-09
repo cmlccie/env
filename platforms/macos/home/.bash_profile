@@ -17,6 +17,10 @@ if shopt -q login_shell; then
 	export PATH
 
 
+	### PKG_CONFIG_PATH Extensions
+	export PKG_CONFIG_PATH=/usr/local/lib:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+
+
 	### PYTHONPATH Extensions
 	export PYTHONPATH=~/dev/lib:$PYTHONPATH
 

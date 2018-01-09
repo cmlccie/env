@@ -22,6 +22,10 @@ if status --is-login
 	set -gx PATH $PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 
+	### PKG_CONFIG_PATH Extensions
+	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig $PKG_CONFIG_PATH
+
+
 	### PYTHONPATH Extensions
 	set -gx PYTHONPATH ~/dev/lib $PYTHONPATH
 

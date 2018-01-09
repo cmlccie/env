@@ -1,7 +1,8 @@
-#echo "Loading: config.fish"
+# echo "Loading: config.fish"
 
 if status --is-login
 	# Login Shell - Initialize Global Environment Variables
+	# echo "Login Shell"
 
     ### Fish Shell Configuration
     set -gx SHELL /usr/local/bin/fish
@@ -51,6 +52,7 @@ end
 
 if status --is-interactive
     # Interactive Shell
+	# echo "Interactive Shell"
 
     ### Shell Tools
     ## pyenv
@@ -66,6 +68,7 @@ if status --is-interactive
 
 else
     # Non-Interactive Shell
+	# echo "Non-Interactive Shell"
 
     ### Non-Interactive Environment Variable Management
     ## direnv

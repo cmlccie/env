@@ -64,6 +64,12 @@ if [[ $- == *i* ]]; then
     ## pew
     source $(pew shell_config)
 
+    ## powerline
+    powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    source /Users/chrlunsf/Library/Python/3.6/lib/python/site-packages/powerline/bindings/bash/powerline.sh
+
 
     ### Shell Completions
     ## brew

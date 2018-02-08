@@ -1,8 +1,8 @@
-# echo "Loading: .bash_profile"
+echo "Loading: .bash_profile"
 
 if shopt -q login_shell; then
 	# Login Shell - Initialize Global Environment Variables
-	# echo "Login Shell"
+	echo "Login Shell"
 
 	### PATH Extensions
 	## Prefixes

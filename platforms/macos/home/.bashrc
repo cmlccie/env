@@ -1,8 +1,8 @@
-# echo "Loading: .bashrc"
+echo "Loading: .bashrc"
 
 if [[ $- == *i* ]]; then
     # Interactive Shell
-    # echo "Interactive Shell"
+    echo "Interactive Shell"
 
 
     ### Initialize Interactive Prompt
@@ -105,7 +105,7 @@ if [[ $- == *i* ]]; then
 
 else
     # Non-Interactive Shell
-    # echo "Non-Interactive Shell"
+    echo "Non-Interactive Shell"
 
     ### Non-Interactive Environment Variable Management
     ## direnv

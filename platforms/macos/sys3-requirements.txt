@@ -1,3 +1,5 @@
 pew
 pipenv
 cookiecutter
+flake8
+powerline-status

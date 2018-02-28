@@ -33,7 +33,7 @@ if status --is-login
 
 	### App Configuration
 	## direnv
-	set -gx DIRENV_LOG_FORMAT
+	set -gx DIRENV_LOG_FORMAT ""
 
 	## pip
 	#set -gx PIP_REQUIRE_VIRTUALENV true

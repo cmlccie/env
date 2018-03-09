@@ -1,5 +1,6 @@
 pew
 pipenv
+ipython
 cookiecutter
 flake8
 powerline-status

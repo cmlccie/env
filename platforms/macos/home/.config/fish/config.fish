@@ -16,7 +16,7 @@ if status --is-login
 	### PATH Extensions
 	## Prefixes
 	# Local Directories
-	set -gx PATH ~/dev/bin ~/.local/bin $PATH
+	set -gx PATH ~/dev/bin $PATH
 
 	## Suffixes
 	# Visual Studio Code

@@ -1,1 +1,1 @@
-eval "$(pipenv --completion)"
+eval (pipenv --completion)

@@ -52,7 +52,7 @@ if [[ $- == *i* ]]; then
             echo ""
         fi
     }
-    export PS1=" \[\e[34m\]\W\[\e[m\]\[\e[32m\]\`parse_git_branch\`\[\e[m\] \[\e[34m\]\\$\[\e[m\] "
+    export PS1="\[\e[34m\]\W\[\e[m\]\[\e[32m\]\`parse_git_branch\`\[\e[m\] \[\e[34m\]\\$\[\e[m\] "
 
 
     ### Shell Tools

@@ -38,7 +38,7 @@ if shopt -q login_shell; then
 	export DIRENV_LOG_FORMAT=
 
 	## pip
-	export PIP_REQUIRE_VIRTUALENV=true
+	# export PIP_REQUIRE_VIRTUALENV=true
 
     ## pew
     export WORKON_HOME=~/.local/share/virtualenvs

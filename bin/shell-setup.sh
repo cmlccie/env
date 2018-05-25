@@ -53,10 +53,6 @@ rm -rf ~/.local/share/z/
 echo "Installing OMF"
 curl -L https://get.oh-my.fish | fish
 
-echo "Installing Bob-The-Fish Theme"
-fish -c "omf install bobthefish"
-# ln -sf ~/dev/shell/home/.config/fish/functions/bobthefish_colors.fish ~/.config/fish/functions/bobthefish_colors.fish
-
 echo "Installing Fisher"
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
 

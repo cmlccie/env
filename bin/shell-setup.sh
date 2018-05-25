@@ -33,6 +33,8 @@ if [ -f ~/.bashrc ]; then
 fi
 ln -sf ~/dev/shell/home/.bashrc ~/.bashrc
 
+ln -sf ~/dev/shell/home/.gitignore_global ~/.gitignore_global
+
 
 echo "==> Installing System Python Packages"
 pip2 install --upgrade pip setuptools

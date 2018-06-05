@@ -1,5 +1,10 @@
 echo "Loading: .bash_profile"
 
+# If supported, enable globstar
+if shopt -q globstar; then
+    shopt -s globstar
+fi
+
 if shopt -q login_shell; then
 	# Login Shell - Initialize Global Environment Variables
 	echo "Login Shell"
@@ -48,7 +53,6 @@ if shopt -q login_shell; then
 	export PIPENV_VENV_IN_PROJECT=1
     export PIPENV_SHELL_FANCY=1
 	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
-
 
 fi
 

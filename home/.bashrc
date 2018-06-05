@@ -111,5 +111,4 @@ else
     ## direnv
     eval "$(direnv export bash)"
 
-
 fi

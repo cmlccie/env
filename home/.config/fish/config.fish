@@ -47,7 +47,6 @@ if status --is-login
     set -gx PIPENV_SHELL_FANCY 1
 	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.6
 
-
 end
 
 
@@ -74,6 +73,5 @@ else
     ### Non-Interactive Environment Variable Management
     ## direnv
     eval (direnv export fish)
-
 
 end

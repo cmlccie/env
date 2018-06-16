@@ -4,6 +4,28 @@ if [[ $- == *i* ]]; then
     # Interactive Shell
     echo "Interactive Shell"
 
+    ### Configure Shell
+    HISTCONTROL=ignoreboth
+    HISTSIZE=1000
+    HISTFILESIZE=2000
+    shopt -s histappend
+    shopt -s checkwinsize
+    shopt -s globstar
+
+
+    # Enable color support
+    export CLICOLOR=1
+    export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
+    if command -v dircolors 1>/dev/null 2>&1; then
+        test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+        alias ls='ls --color=auto'
+        alias dir='dir --color=auto'
+        alias vdir='vdir --color=auto'
+        alias grep='grep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias egrep='egrep --color=auto'
+    fi
+
 
     ### Initialize Interactive Prompt
     # http://ezprompt.net/
@@ -52,64 +74,37 @@ if [[ $- == *i* ]]; then
             echo ""
         fi
     }
-    export PS1="\[\e[34m\]\W\[\e[m\]\[\e[32m\]\`parse_git_branch\`\[\e[m\] \[\e[34m\]\\$\[\e[m\] "
+    PS1="\[\e[34m\]\W\[\e[m\]\[\e[32m\]\`parse_git_branch\`\[\e[m\] \[\e[34m\]\\$\[\e[m\] "
 
 
     ### Shell Tools
     ## pyenv
-    if command -v pyenv 1>/dev/null 2>&1; then
-        eval "$(pyenv init -)"
-    fi
+    command -v pyenv 1>/dev/null 2>&1 && eval "`pyenv init -`"
 
     ## pew
-    source $(pew shell_config)
-
-
-    ### Shell Completions
-    ## brew
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-        . $(brew --prefix)/etc/bash_completion
-    fi
+    command -v pew 1>/dev/null 2>&1 && source $(pew shell_config)
 
     ## pip
-    # pip completion --bash
-    _pip_completion()
-    {
-        COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
-                    COMP_CWORD=$COMP_CWORD \
-                    PIP_AUTO_COMPLETE=1 $1 ) )
-    }
-    complete -o default -F _pip_completion pip
-    complete -o default -F _pip_completion pip2
-    complete -o default -F _pip_completion pip3
+    command -v pip 1>/dev/null 2>&1 && eval "`pip completion --bash`"
+    command -v pip3 1>/dev/null 2>&1 && eval "`pip3 completion --bash`"
 
     ## pipenv
-    # pipenv --completion
-    _pipenv_completion() {
-        local IFS=$'\t'
-        COMPREPLY=( $( env COMP_WORDS="${COMP_WORDS[*]}" \
-                    COMP_CWORD=$COMP_CWORD \
-                    _PIPENV_COMPLETE=complete-bash $1 ) )
-        return 0
-    }
-    complete -F _pipenv_completion -o default pipenv
+    PIPENV_SHELL_FANCY=1
+    command -v pipenv 1>/dev/null 2>&1 && eval "`pipenv --completion`"
 
-    ## google-cloud-sdk
-    source ~/dev/tools/google-cloud-sdk/completion.bash.inc
-
-
-    ### Interactive Environment Variable Management
     ## direnv
-    eval "$(direnv hook bash)"
+    command -v direnv 1>/dev/null 2>&1 && eval "`direnv hook bash`"
 
+
+    ### Aliases
+    [[ -f $HOME/.bash_aliases ]] && source ~/.bash_aliases
 
 else
     # Non-Interactive Shell
     echo "Non-Interactive Shell"
 
-    ### Non-Interactive Environment Variable Management
     ## direnv
-    eval "$(direnv export bash)"
+    command -v direnv 1>/dev/null 2>&1 && eval $(direnv export bash)
 
 
 fi

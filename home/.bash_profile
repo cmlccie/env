@@ -1,56 +1,37 @@
 echo "Loading: .bash_profile"
 
-if shopt -q login_shell; then
-	# Login Shell - Initialize Global Environment Variables
-	echo "Login Shell"
-
-	### PATH Extensions
-	## Prefixes
-	# Google Cloud SDK
-	source ~/dev/tools/google-cloud-sdk/path.bash.inc
-	# Local Directories
-	PATH=~/dev/bin:~/.local/bin:$PATH
-
-	## Suffixes
-	# Visual Studio Code
-	PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-	export PATH
+# if shopt -q login_shell; then; echo "Login Shell"; fi
 
 
-	### PKG_CONFIG_PATH Extensions
-	export PKG_CONFIG_PATH=/usr/local/lib:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+### Initialize Global "Login Shell" Environment
+## PATH Modifications
+# Includes user's private bin directories
+export PATH=$HOME/dev/bin:$HOME/bin:$HOME/.local/bin:$PATH
+
+# Include user's local development packages
+export PYTHONPATH=$HOME/dev/lib:$PYTHONPATH
 
 
-	### PYTHONPATH Extensions
-	export PYTHONPATH=~/dev/lib:$PYTHONPATH
+## Localization
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 
-	### Console Configuration
-	export LC_ALL=en_US.UTF-8
-	export LANG=en_US.UTF-8
-	export CLICOLOR=1
-	export GREP_OPTIONS='--color=auto'
+## Tools Configuration
+# direnv
+export DIRENV_LOG_FORMAT=
+
+# pip
+# export PIP_REQUIRE_VIRTUALENV=true
+
+# pew
+export WORKON_HOME=~/.local/share/virtualenvs
+export PROJECT_HOME=~/dev/projects
+
+# pipenv
+export PIPENV_VENV_IN_PROJECT=1
+export PIPENV_DEFAULT_PYTHON_VERSION=3.6
 
 
-	### App Configuration
-	## direnv
-	export DIRENV_LOG_FORMAT=
-
-	## pip
-	# export PIP_REQUIRE_VIRTUALENV=true
-
-    ## pew
-    export WORKON_HOME=~/.local/share/virtualenvs
-    export PROJECT_HOME=~/dev/projects
-
-	## pipenv
-	export PIPENV_VENV_IN_PROJECT=1
-    export PIPENV_SHELL_FANCY=1
-	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
-
-
-fi
-
-# Load .bashrc to initialize Interactive / Non-Interactive Environments
+### Load .bashrc to initialize Interactive / Non-Interactive Environments
 source ~/.bashrc

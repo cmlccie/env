@@ -12,7 +12,10 @@ if shopt -q login_shell; then
 	### PATH Extensions
 	## Prefixes
 	# Google Cloud SDK
-	source ~/dev/tools/google-cloud-sdk/path.bash.inc
+	if [ -x ~/dev/tools/google-cloud-sdk/path.bash.inc ]; then
+		source ~/dev/tools/google-cloud-sdk/path.bash.inc
+	fi
+	
 	# Local Directories
 	PATH=~/dev/bin:~/.local/bin:$PATH
 
@@ -39,6 +42,9 @@ if shopt -q login_shell; then
 
 
 	### App Configuration
+	## gpg
+	export GPG_TTY=$(tty)
+
 	## direnv
 	export DIRENV_LOG_FORMAT=
 

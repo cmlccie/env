@@ -94,9 +94,6 @@ if [[ $- == *i* ]]; then
     }
     complete -F _pipenv_completion -o default pipenv
 
-    ## google-cloud-sdk
-    source ~/dev/tools/google-cloud-sdk/completion.bash.inc
-
 
     ### Interactive Environment Variable Management
     ## direnv

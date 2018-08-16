@@ -32,6 +32,9 @@ if status --is-login
 
 
 	### App Configuration
+	## gpg
+	set -gx GPG_TTY (tty)
+
 	## direnv
 	set -gx DIRENV_LOG_FORMAT ""
 

@@ -48,7 +48,7 @@ if status --is-login
 	## pipenv
 	set -gx PIPENV_VENV_IN_PROJECT 1
     set -gx PIPENV_SHELL_FANCY 1
-	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.6
+	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.7
 
 end
 

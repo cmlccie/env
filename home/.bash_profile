@@ -58,7 +58,7 @@ if shopt -q login_shell; then
 	## pipenv
 	export PIPENV_VENV_IN_PROJECT=1
     export PIPENV_SHELL_FANCY=1
-	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
+	export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
 fi
 

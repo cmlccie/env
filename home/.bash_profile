@@ -19,10 +19,6 @@ if shopt -q login_shell; then
 	# Local Directories
 	PATH=~/dev/bin:~/.local/bin:$PATH
 
-	## Suffixes
-	# Visual Studio Code
-	PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
 	export PATH
 
 

@@ -18,10 +18,6 @@ if status --is-login
 	# Local Directories
 	set -gx PATH ~/dev/bin $PATH
 
-	## Suffixes
-	# Visual Studio Code
-	set -gx PATH $PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
 
 	### PKG_CONFIG_PATH Extensions
 	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig $PKG_CONFIG_PATH

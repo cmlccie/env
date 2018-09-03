@@ -53,15 +53,16 @@ rm -rf ~/.local/share/omf/
 rm -rf ~/.local/share/fish/
 rm -rf ~/.local/share/z/
 
+echo "Configuring Fish Shell"
+mkdir -p ~/.config/fish 
+ln -sf ~/dev/shell/home/.config/fish/config.fish ~/.config/fish/config.fish
+ln -sf ~/dev/shell/home/.config/fish/functions ~/.config/fish/functions
+
 echo "Installing OMF"
 curl -L https://get.oh-my.fish | fish
 
 echo "Installing Fisher"
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
-
-echo "Configuring Fish Shell"
-mkdir -p ~/.config/fish 
-ln -sf ~/dev/shell/home/.config/fish/config.fish ~/.config/fish/config.fish
 
 echo "Installing Fisher Plugins"
 ln -sf ~/dev/shell/home/.config/fish/fishfile ~/.config/fish/fishfile

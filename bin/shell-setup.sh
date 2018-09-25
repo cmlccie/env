@@ -40,6 +40,8 @@ ln -sf ~/dev/shell/home/.gnupg/gpg.conf ~/.gnupg/gpg.conf
 
 ln -sf ~/dev/shell/home/.config/flake8 ~/.config/flake8
 
+ln -sf ~/dev/shell/home/.matplotlib/matplotlibrc ~/.matplotlib/matplotlibrc
+
 
 echo "==> Installing System Python Packages"
 pip2 install --upgrade pip setuptools

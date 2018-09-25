@@ -38,6 +38,8 @@ ln -sf ~/dev/shell/home/.gitignore_global ~/.gitignore_global
 ln -sf ~/dev/shell/home/.gnupg/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 ln -sf ~/dev/shell/home/.gnupg/gpg.conf ~/.gnupg/gpg.conf
 
+ln -sf ~/dev/shell/home/.config/flake8 ~/.config/flake8
+
 
 echo "==> Installing System Python Packages"
 pip2 install --upgrade pip setuptools

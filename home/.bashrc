@@ -100,6 +100,10 @@ if [[ $- == *i* ]]; then
     eval "$(direnv hook bash)"
 
 
+    ## Aliases
+    alias swift='PATH="/usr/bin:$PATH" swift'
+
+
 else
     # Non-Interactive Shell
     echo "Non-Interactive Shell"

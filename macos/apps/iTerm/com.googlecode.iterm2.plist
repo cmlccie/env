@@ -364,8 +364,10 @@
 	<false/>
 	<key>EnableProxyIcon</key>
 	<true/>
-	<key>HideTab</key>
+	<key>HideScrollbar</key>
 	<true/>
+	<key>HideTab</key>
+	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -391,7 +393,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdKGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAc7Gdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -415,13 +417,13 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>2323 810 1089 387 1680 514 1920 1080 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>-1590 379 620 392 -2560 -390 2560 1418 </string>
+	<string>650 498 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>264 294 918 512 0 0 1680 1050 </string>
+	<string>-1340 -262 918 512 -1680 -514 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>11 269 1130 750 0 0 1680 1050 </string>
+	<string>-1441 -402 1144 750 -1680 -514 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>440 56 1130 726 0 0 1680 1028 </string>
+	<string>-1358 -341 1130 750 -2560 -390 2560 1418 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2599,6 +2601,8 @@
 			<string>/Users/chrlunsf</string>
 		</dict>
 	</array>
+	<key>NoSyncHaveRequestedFullDiskAccess</key>
+	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -2661,16 +2665,22 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-08-20T00:52:22Z</date>
+	<date>2018-10-24T19:58:35Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TabStyle</key>
 	<integer>1</integer>
+	<key>TabStyleWithAutomaticOption</key>
+	<integer>1</integer>
+	<key>TabViewType</key>
+	<integer>1</integer>
+	<key>UseBorder</key>
+	<false/>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.0</string>
+	<string>3.2.4</string>
 </dict>
 </plist>

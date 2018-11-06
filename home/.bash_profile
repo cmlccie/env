@@ -47,6 +47,11 @@ if shopt -q login_shell; then
 	## pip
 	# export PIP_REQUIRE_VIRTUALENV=true
 
+	## pyenv
+	if command -v pyenv 1>/dev/null 2>&1; then
+		eval "$(pyenv init -)"
+	fi
+
     ## pew
     export WORKON_HOME=~/.local/share/virtualenvs
     export PROJECT_HOME=~/dev/projects

@@ -59,7 +59,7 @@ if status --is-interactive
 
     ### Shell Tools
     ## pyenv
-    # source (pyenv init -|psub)
+    source (pyenv init -|psub)
 
 	## pew
 	source (pew shell_config)

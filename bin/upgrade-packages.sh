@@ -6,9 +6,10 @@ cd "$(dirname "$0")/.."
 
 echo "==> Upgrading Homebrew Packages"
 brew update
+brew prune
 brew doctor
 brew upgrade
-
+brew prune
 
 echo "==> Upgrading System Python Packages"
 echo "Removing system-level pip2 and pip3 installed packages"

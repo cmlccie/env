@@ -9,7 +9,7 @@ echo "Installing Homebrew"
 fi
 brew update
 brew doctor
-# brew bundle install --file=~/dev/shell/macos/Brewfile
+brew bundle install --file=~/dev/shell/macos/Brewfile
 
 
 echo "==> Creating Symbolic Links"

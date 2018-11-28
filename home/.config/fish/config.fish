@@ -18,10 +18,6 @@ if status --is-login
 	# Local Directories
 	set -gx PATH ~/dev/bin $PATH
 
-	## Suffixes
-	# Visual Studio Code
-	set -gx PATH $PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
 
 	### PKG_CONFIG_PATH Extensions
 	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig $PKG_CONFIG_PATH
@@ -32,6 +28,9 @@ if status --is-login
 
 
 	### App Configuration
+	## gpg
+	set -gx GPG_TTY (tty)
+
 	## direnv
 	set -gx DIRENV_LOG_FORMAT ""
 
@@ -45,8 +44,11 @@ if status --is-login
 	## pipenv
 	set -gx PIPENV_VENV_IN_PROJECT 1
     set -gx PIPENV_SHELL_FANCY 1
-	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.6
+	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.7
 
+	## java
+	set -gx JAVA_HOME `/usr/libexec/java_home -v 1.8`
+	set -gx PATH $JAVA_HOME/bin $PATH
 
 end
 
@@ -57,7 +59,7 @@ if status --is-interactive
 
     ### Shell Tools
     ## pyenv
-    # source (pyenv init -|psub)
+    source (pyenv init -|psub)
 
 	## pew
 	source (pew shell_config)
@@ -74,6 +76,5 @@ else
     ### Non-Interactive Environment Variable Management
     ## direnv
     eval (direnv export fish)
-
 
 end

@@ -53,6 +53,13 @@ git config --global user.name "Chris Lunsford"
 git config --global user.email "chris@cmlccie.com"
 
 
+ln -sf ~/dev/shell/home/.gnupg/gpg-agent.conf ~/.gnupg/gpg-agent.conf
+ln -sf ~/dev/shell/home/.gnupg/gpg.conf ~/.gnupg/gpg.conf
+
+ln -sf ~/dev/shell/home/.config/flake8 ~/.config/flake8
+
+ln -sf ~/dev/shell/home/.matplotlib/matplotlibrc ~/.matplotlib/matplotlibrc
+
 
 echo "==> Installing System Python Packages"
 pip2 install --upgrade pip setuptools
@@ -68,15 +75,16 @@ rm -rf ~/.local/share/omf/
 rm -rf ~/.local/share/fish/
 rm -rf ~/.local/share/z/
 
+echo "Configuring Fish Shell"
+mkdir -p ~/.config/fish 
+ln -sf ~/dev/shell/home/.config/fish/config.fish ~/.config/fish/config.fish
+ln -sf ~/dev/shell/home/.config/fish/functions ~/.config/fish/functions
+
 echo "Installing OMF"
 curl -L https://get.oh-my.fish | fish
 
 echo "Installing Fisher"
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
-
-echo "Configuring Fish Shell"
-mkdir -p ~/.config/fish 
-ln -sf ~/dev/shell/home/.config/fish/config.fish ~/.config/fish/config.fish
 
 echo "Installing Fisher Plugins"
 ln -sf ~/dev/shell/home/.config/fish/fishfile ~/.config/fish/fishfile

@@ -1,0 +1,13 @@
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[user]
+	name = Chris Lunsford
+	email = chrlunsf@cisco.com
+	signingkey = 6F91B429B4E95D0D01A4228B678B95A1546EEE58
+[core]
+	excludesfile = /Users/chrlunsf/.gitignore_global
+[commit]
+	gpgsign = true

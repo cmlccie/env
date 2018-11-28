@@ -1,37 +1,76 @@
 echo "Loading: .bash_profile"
 
-# if shopt -q login_shell; then; echo "Login Shell"; fi
+# If supported, enable globstar
+if shopt -q globstar; then
+    shopt -s globstar
+fi
+
+if shopt -q login_shell; then
+	# Login Shell - Initialize Global Environment Variables
+	echo "Login Shell"
+
+	### PATH Extensions
+	## Prefixes
+	# Google Cloud SDK
+	if [ -x ~/dev/tools/google-cloud-sdk/path.bash.inc ]; then
+		source ~/dev/tools/google-cloud-sdk/path.bash.inc
+	fi
+	
+	# Local Directories
+	PATH=~/dev/bin:~/.local/bin:$PATH
+
+	export PATH
 
 
-### Initialize Global "Login Shell" Environment
-## PATH Modifications
-# Includes user's private bin directories
-export PATH=$HOME/dev/bin:$HOME/bin:$HOME/.local/bin:$PATH
-
-# Include user's local development packages
-export PYTHONPATH=$HOME/dev/lib:$PYTHONPATH
+	## Localization
+	export LC_ALL=en_US.UTF-8
+	export LANG=en_US.UTF-8
 
 
-## Localization
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+	## Tools Configuration
+	# direnv
+	export DIRENV_LOG_FORMAT=
 
+	# pip
+	# export PIP_REQUIRE_VIRTUALENV=true
 
-## Tools Configuration
-# direnv
-export DIRENV_LOG_FORMAT=
+	# pew
+	export WORKON_HOME=~/.local/share/virtualenvs
+	export PROJECT_HOME=~/dev/projects
 
-# pip
-# export PIP_REQUIRE_VIRTUALENV=true
+	# pipenv
+	export PIPENV_VENV_IN_PROJECT=1
+	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
 
-# pew
-export WORKON_HOME=~/.local/share/virtualenvs
-export PROJECT_HOME=~/dev/projects
+	### App Configuration
+	## gpg
+	export GPG_TTY=$(tty)
 
-# pipenv
-export PIPENV_VENV_IN_PROJECT=1
-export PIPENV_DEFAULT_PYTHON_VERSION=3.6
+	## direnv
+	export DIRENV_LOG_FORMAT=
 
+	## pip
+	# export PIP_REQUIRE_VIRTUALENV=true
 
-### Load .bashrc to initialize Interactive / Non-Interactive Environments
+	## pyenv
+	if command -v pyenv 1>/dev/null 2>&1; then
+		eval "$(pyenv init -)"
+	fi
+
+    ## pew
+    export WORKON_HOME=~/.local/share/virtualenvs
+    export PROJECT_HOME=~/dev/projects
+
+	## pipenv
+	export PIPENV_VENV_IN_PROJECT=1
+    export PIPENV_SHELL_FANCY=1
+	export PIPENV_DEFAULT_PYTHON_VERSION=3.7
+
+	## java
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+	export PATH=${JAVA_HOME}/bin:$PATH
+
+fi
+
+# Load .bashrc to initialize Interactive / Non-Interactive Environments
 source ~/.bashrc

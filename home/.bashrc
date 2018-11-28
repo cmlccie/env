@@ -89,9 +89,18 @@ if [[ $- == *i* ]]; then
     command -v pip3 1>/dev/null 2>&1 && eval "`pip3 completion --bash`"
 
     ## pipenv
-    PIPENV_SHELL_FANCY=1
-    command -v pipenv 1>/dev/null 2>&1 && eval "`pipenv --completion`"
+    # pipenv --completion
+    _pipenv_completion() {
+        local IFS=$'\t'
+        COMPREPLY=( $( env COMP_WORDS="${COMP_WORDS[*]}" \
+                    COMP_CWORD=$COMP_CWORD \
+                    _PIPENV_COMPLETE=complete-bash $1 ) )
+        return 0
+    }
+    complete -F _pipenv_completion -o default pipenv
 
+
+    ### Interactive Environment Variable Management
     ## direnv
     command -v direnv 1>/dev/null 2>&1 && eval "`direnv hook bash`"
 
@@ -99,12 +108,15 @@ if [[ $- == *i* ]]; then
     ### Aliases
     [[ -f $HOME/.bash_aliases ]] && source ~/.bash_aliases
 
+    ## Aliases
+    alias swift='PATH="/usr/bin:$PATH" swift'
+
+
 else
     # Non-Interactive Shell
     echo "Non-Interactive Shell"
 
     ## direnv
     command -v direnv 1>/dev/null 2>&1 && eval $(direnv export bash)
-
 
 fi

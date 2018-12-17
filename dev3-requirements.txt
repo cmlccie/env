@@ -3,6 +3,8 @@ Jinja2
 PyYAML
 beautifulsoup4
 click
+docutils
+doc8
 flake8
 future
 ipython
@@ -18,5 +20,6 @@ requests-ntlm
 requests-toolbelt
 scikit-learn
 smartsheet-python-sdk
+sphinx
 tablib
 webexteamssdk

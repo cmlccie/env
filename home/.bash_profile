@@ -22,20 +22,25 @@ if shopt -q login_shell; then
 	export PATH
 
 
-	### PKG_CONFIG_PATH Extensions
-	export PKG_CONFIG_PATH=/usr/local/lib:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-
-
-	### PYTHONPATH Extensions
-	export PYTHONPATH=~/dev/lib:$PYTHONPATH
-
-
-	### Console Configuration
+	## Localization
 	export LC_ALL=en_US.UTF-8
 	export LANG=en_US.UTF-8
-	export CLICOLOR=1
-	export GREP_OPTIONS='--color=auto'
 
+
+	## Tools Configuration
+	# direnv
+	export DIRENV_LOG_FORMAT=
+
+	# pip
+	# export PIP_REQUIRE_VIRTUALENV=true
+
+	# pew
+	export WORKON_HOME=~/.local/share/virtualenvs
+	export PROJECT_HOME=~/dev/projects
+
+	# pipenv
+	export PIPENV_VENV_IN_PROJECT=1
+	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
 
 	### App Configuration
 	## gpg

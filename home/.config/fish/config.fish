@@ -45,10 +45,6 @@ if status --is-login
     set -gx PIPENV_SHELL_FANCY 1
 	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.7
 
-	## java
-	set -gx JAVA_HOME `/usr/libexec/java_home -v 1.8`
-	set -gx PATH $JAVA_HOME/bin $PATH
-
 end
 
 

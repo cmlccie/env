@@ -66,10 +66,6 @@ if shopt -q login_shell; then
     export PIPENV_SHELL_FANCY=1
 	export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
-	## java
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-	export PATH=${JAVA_HOME}/bin:$PATH
-
 fi
 
 # Load .bashrc to initialize Interactive / Non-Interactive Environments

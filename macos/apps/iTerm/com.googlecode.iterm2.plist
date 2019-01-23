@@ -12,6 +12,8 @@
 	<integer>1</integer>
 	<key>AppleWindowTabbingMode</key>
 	<string>manual</string>
+	<key>CopyWithStylesByDefault</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Cisco</key>
@@ -360,6 +362,8 @@
 	<string>41123CE6-F9C2-466D-A55F-36BF7691942B</string>
 	<key>DisableFullscreenTransparency</key>
 	<true/>
+	<key>DisallowCopyEmptyString</key>
+	<true/>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>EnableProxyIcon</key>
@@ -417,13 +421,13 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>2323 810 1089 387 1680 514 1920 1080 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 498 620 392 0 0 1920 1057 </string>
+	<string>-1590 378 620 392 -2560 -390 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1340 -262 918 512 -1680 -514 1680 1027 </string>
+	<string>432 418 1018 447 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-1441 -402 1144 750 -1680 -514 1680 1027 </string>
+	<string>289 156 1130 750 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-1358 -341 1130 750 -2560 -390 2560 1418 </string>
+	<string>-1228 93 1130 750 -2560 -390 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2603,6 +2607,8 @@
 	</array>
 	<key>NoSyncHaveRequestedFullDiskAccess</key>
 	<true/>
+	<key>NoSyncHaveUsedCopyMode</key>
+	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -2665,7 +2671,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-10-24T19:58:35Z</date>
+	<date>2019-01-07T20:16:49Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TabStyle</key>
@@ -2681,6 +2687,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.4</string>
+	<string>3.2.6</string>
 </dict>
 </plist>

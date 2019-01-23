@@ -8,7 +8,6 @@ if status --is-login
     set -gx SHELL /usr/local/bin/fish
 	set -gx LC_ALL en_US.UTF-8
 	set -gx LANG en_US.UTF-8
-	set -gx GREP_OPTIONS '--color auto'
 	# set -gx theme_powerline_fonts yes
 	set -gx theme_nerd_fonts yes
 

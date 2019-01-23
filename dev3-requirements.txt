@@ -3,8 +3,8 @@ Jinja2
 PyYAML
 beautifulsoup4
 click
-docutils
 doc8
+docutils
 flake8
 future
 ipython

@@ -11,6 +11,15 @@ brew doctor
 brew upgrade
 brew cleanup
 
+echo "==> Downgrading Fish to v2.7.1; while v3.0 is broken"
+# To be fixed in Fish v3.1?
+# https://github.com/fish-shell/fish-shell/issues/5456
+# https://github.com/pypa/pipenv/issues/3414
+brew unlink fish
+brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/2827b020c3366ea93566a344167ba62388c16c7d/Formula/fish.rb
+brew link fish
+
+
 echo "==> Upgrading System Python Packages"
 echo "Removing system-level pip2 and pip3 installed packages"
 timestamp=$(date -u +"%Y%m%dT%H%M%SZ")

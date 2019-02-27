@@ -1,5 +1,6 @@
 awscli
 cookiecutter
+doitlive
 flake8
 ipython
 pew

@@ -6,7 +6,6 @@ cd "$(dirname "$0")/.."
 
 echo "==> Upgrading Homebrew Packages"
 brew update
-brew cleanup
 brew doctor
 brew upgrade
 brew cleanup

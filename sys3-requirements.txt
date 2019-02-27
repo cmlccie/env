@@ -4,5 +4,4 @@ doitlive
 flake8
 ipython
 pew
-pipenv
 powerline-status

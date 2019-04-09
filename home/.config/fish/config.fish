@@ -26,24 +26,26 @@ if status --is-login
 	set -gx PYTHONPATH ~/dev/lib $PYTHONPATH
 
 
-	### App Configuration
-	## gpg
+	### Tool Configuration
+	# gpg
 	set -gx GPG_TTY (tty)
 
-	## direnv
+	# direnv
 	set -gx DIRENV_LOG_FORMAT ""
 
-	## pip
-	#set -gx PIP_REQUIRE_VIRTUALENV true
-
-    ## pew
+    # pew
     set -gx WORKON_HOME ~/.local/share/virtualenvs
     set -gx PROJECT_HOME ~/dev/projects
 
-	## pipenv
+	# pipenv
 	set -gx PIPENV_VENV_IN_PROJECT 1
     set -gx PIPENV_SHELL_FANCY 1
 	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.7
+
+	# pyenv
+	if command -v pyenv 1>/dev/null 2>&1
+		pyenv init - | source
+	end
 
 end
 
@@ -52,15 +54,11 @@ if status --is-interactive
     # Interactive Shell
 	# echo "Interactive Shell"
 
-    ### Shell Tools
-    ## pyenv
-    # source (pyenv init -|psub)
-
-	## pew
+	# pew
 	source (pew shell_config)
 
     ### Interactive Environment Variable Management
-    ## direnv
+    # direnv
     eval (direnv hook fish)
 
 
@@ -69,7 +67,7 @@ else
 	echo "Non-Interactive Shell"
 
     ### Non-Interactive Environment Variable Management
-    ## direnv
+    # direnv
     eval (direnv export fish)
 
 end

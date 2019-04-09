@@ -28,45 +28,28 @@ if shopt -q login_shell; then
 
 
 	## Tools Configuration
+	# gpg
+	export GPG_TTY=$(tty)
+
 	# direnv
 	export DIRENV_LOG_FORMAT=
 
-	# pip
-	# export PIP_REQUIRE_VIRTUALENV=true
-
-	# pew
-	export WORKON_HOME=~/.local/share/virtualenvs
-	export PROJECT_HOME=~/dev/projects
-
-	# pipenv
-	export PIPENV_VENV_IN_PROJECT=1
-	export PIPENV_DEFAULT_PYTHON_VERSION=3.6
-
-	### App Configuration
-	## gpg
-	export GPG_TTY=$(tty)
-
-	## direnv
-	export DIRENV_LOG_FORMAT=
-
-	## pip
-	# export PIP_REQUIRE_VIRTUALENV=true
-
-	## pyenv
-	if command -v pyenv 1>/dev/null 2>&1; then
-		eval "$(pyenv init -)"
-	fi
-
-    ## pew
+    # pew
     export WORKON_HOME=~/.local/share/virtualenvs
     export PROJECT_HOME=~/dev/projects
 
-	## pipenv
+	# pipenv
 	export PIPENV_VENV_IN_PROJECT=1
     export PIPENV_SHELL_FANCY=1
 	export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
+	# pyenv
+	if command -v pyenv 1>/dev/null 2>&1; then
+		eval "$(pyenv init -)"
+	fi
+
 fi
+
 
 # Load .bashrc to initialize Interactive / Non-Interactive Environments
 source ~/.bashrc

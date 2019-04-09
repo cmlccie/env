@@ -2,6 +2,13 @@
 # macOS Development Environment Setup
 
 
+echo "==> Installing Xcode Tools"
+xcode-select --install
+echo "Installing additional SDK headers"
+# See https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+
+
 echo "==> Installing Homebrew Packages"
 if [ ! -x /usr/local/bin/brew ]; then
 echo "Installing Homebrew"

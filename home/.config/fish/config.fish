@@ -14,12 +14,12 @@ if status --is-login
 
 	### PATH Extensions
 	## Prefixes
-	# Local Directories
-	set -gx PATH ~/dev/bin $PATH
+	# User Paths
+	set -gx PATH ~/dev/bin /usr/local/opt/ruby/bin /usr/local/lib/ruby/gems/2.6.0/bin $PATH
 
 
 	### PKG_CONFIG_PATH Extensions
-	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig $PKG_CONFIG_PATH
+	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt/readline/lib/pkgconfig $PKG_CONFIG_PATH
 
 
 	### PYTHONPATH Extensions

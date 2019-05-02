@@ -97,16 +97,15 @@ if [[ $- == *i* ]]; then
     }
     complete -F _pipenv_completion -o default pipenv
 
-
-    ### Interactive Environment Variable Management
     ## direnv
     command -v direnv 1>/dev/null 2>&1 && eval "`direnv hook bash`"
 
+    ## travis
+    [[ -f ~/.travis/travis.sh ]] && source ~/.travis/travis.sh
+
 
     ### Aliases
-    [[ -f $HOME/.bash_aliases ]] && source ~/.bash_aliases
-
-    ## Aliases
+    [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
     alias swift='PATH="/usr/bin:$PATH" swift'
 
 

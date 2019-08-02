@@ -21,6 +21,7 @@ brew "tree"
 brew "wget"
 brew "xz"
 brew "zlib"
+brew "zsh"
 
 cask "camtasia"
 cask "caskroom/fonts/font-hack-nerd-font"

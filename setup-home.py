@@ -79,14 +79,14 @@ def create_home_directory_symbolic_links():
     for file_path in file_paths:
         sym_link_path = translate_home_path(file_path)
 
-        if sym_link_path.is_file():
+        if sym_link_path.is_file() and not sym_link_path.is_symlink():
             backup_file(sym_link_path)
             sym_link_path.unlink()
 
         if sym_link_path.is_symlink():
             sym_link_path.unlink()
 
-        print(f"Creating Symbolic Link: {sym_link_path} -> {file_path}")
+        print(f"Creating Symlink: {sym_link_path} -> {file_path}")
         sym_link_path.symlink_to(file_path)
 
 

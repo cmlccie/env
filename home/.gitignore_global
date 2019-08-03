@@ -1,8 +1,9 @@
+*.code-workspace
 .DS_Store
 .env
 .envrc
 .idea/
+.ipynb_checkpoints/
 .venv/
 .vscode/
 venv/
-*.code-workspace

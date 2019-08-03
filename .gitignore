@@ -1,7 +1,0 @@
-# Fish automatically generated files
-platforms/macos/home/.config/fish/fishd.*
-
-# Fish plugin installed files
-platforms/macos/home/.config/fish/conf.d/
-platforms/macos/home/.config/fish/functions/
-!platforms/macos/home/.config/fish/functions/fish_prompt.fish

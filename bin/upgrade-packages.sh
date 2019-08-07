@@ -19,6 +19,10 @@ brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/2827b020c3
 brew link fish
 
 
+echo "==> Updating pyenv shims"
+pyenv rehash
+
+
 echo "==> Upgrading System Python Packages"
 echo "Removing system-level pip2 and pip3 installed packages"
 timestamp=$(date -u +"%Y%m%dT%H%M%SZ")
@@ -41,7 +45,7 @@ rm "$tmpfile"
 
 echo "==> Recreating dev Environments"
 sort -o dev2-requirements.txt dev2-requirements.txt
-pew rm dev3
+pew rm dev2
 pew new -d -p python2 -r dev2-requirements.txt dev2
 
 sort -o dev3-requirements.txt dev3-requirements.txt

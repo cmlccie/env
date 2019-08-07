@@ -7,7 +7,6 @@ cd "$(dirname "$0")"
 
 # Process Script Arguments
 all=true
-
 for i in ${@}; do
     case ${i} in
         brew)
@@ -76,7 +75,6 @@ if [[ ${sys2} ]] || [[ ${all} ]]; then
 
     rm ${sys2_packages}
 fi
-
 
 
 if [[ ${sys3} ]] || [[ ${all} ]]; then

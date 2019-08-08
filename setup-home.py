@@ -135,7 +135,7 @@ def main(file_paths: Optional[List[Path]] = None):
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         _, *file_paths = sys.argv
-        file_paths = [Path(p).expanduser() for p in file_paths]
+        file_paths = [Path(p).expanduser().resolve() for p in file_paths]
 
         main(file_paths)
 

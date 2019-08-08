@@ -1,30 +1,20 @@
 # echo "Loading: config.fish"
 
 if status --is-login
-	# Login Shell - Initialize Global Environment Variables
+	# Login Shell
 	# echo "Login Shell"
 
-    ### Fish Shell Configuration
-    set -gx SHELL /usr/local/bin/fish
+    ### Shell Configuration
+    set -gx SHELL (which fish)
+	set -gx EDITOR code
 	set -gx LC_ALL en_US.UTF-8
 	set -gx LANG en_US.UTF-8
-	# set -gx theme_powerline_fonts yes
-	set -gx theme_nerd_fonts yes
 
 
-	### PATH Extensions
-	## Prefixes
-	# User Paths
-	set -gx PATH ~/dev/bin /usr/local/opt/ruby/bin /usr/local/lib/ruby/gems/2.6.0/bin $PATH
-
-
-	### PKG_CONFIG_PATH Extensions
-	set -gx PKG_CONFIG_PATH /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt/readline/lib/pkgconfig $PKG_CONFIG_PATH
-
-
-	### PYTHONPATH Extensions
-	set -gx PYTHONPATH ~/dev/lib $PYTHONPATH
-
+	### Install Local Paths
+	if test -e {$HOME}/.paths.fish
+		source {$HOME}/.paths.fish
+	end
 
 	### Tool Configuration
 	# gpg
@@ -34,8 +24,8 @@ if status --is-login
 	set -gx DIRENV_LOG_FORMAT ""
 
     # pew
-    set -gx WORKON_HOME ~/.local/share/virtualenvs
-    set -gx PROJECT_HOME ~/dev/projects
+    set -gx WORKON_HOME {$HOME}/.local/share/virtualenvs
+    set -gx PROJECT_HOME {$HOME}/dev/projects
 
 	# pipenv
 	set -gx PIPENV_VENV_IN_PROJECT 1
@@ -43,31 +33,48 @@ if status --is-login
 	set -gx PIPENV_DEFAULT_PYTHON_VERSION 3.7
 
 	# pyenv
-	if command -v pyenv 1>/dev/null 2>&1
+	if command -vq pyenv
 		pyenv init - | source
+	end
+
+	# conda
+	if command -vq conda
+		source (conda info --root)/etc/fish/conf.d/conda.fish
 	end
 
 end
 
 
 if status --is-interactive
-    # Interactive Shell
+	# Interactive Shell
 	# echo "Interactive Shell"
 
+	### Shell Configuration
+	set -gx theme_nerd_fonts yes
+
+	### Tool Configuration
 	# pew
-	source (pew shell_config)
+	if command -vq pew
+		source (pew shell_config)
+	end
 
-    ### Interactive Environment Variable Management
     # direnv
-    eval (direnv hook fish)
+	if command -vq direnv
+	    eval (direnv hook fish)
+	end
 
+	# iTerm2
+	if test -e {$HOME}/.iterm2_shell_integration.fish
+		source {$HOME}/.iterm2_shell_integration.fish
+	end
 
 else
-    # Non-Interactive Shell
 	echo "Non-Interactive Shell"
 
-    ### Non-Interactive Environment Variable Management
+	### Tool Configuration
     # direnv
-    eval (direnv export fish)
+	if command -vq direnv
+    	eval (direnv export fish)
+	end
 
 end

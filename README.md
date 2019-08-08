@@ -19,14 +19,14 @@
 - **Linux** | Ubuntu, Raspbian, Debian-based
     - [VS Code](https://code.visualstudio.com/) - Primary IDE
 - **Shells**
-    - [fish](https://fishshell.com) - Primary OS/Development Shell
+    - [fish](https://fishshell.com) - Primary OS Shell
         - [oh-my-fish/theme-bobthefish](https://github.com/oh-my-fish/theme-bobthefish)
         - [fisherman/z](https://github.com/jethrokuan/z)
         - [fisherman/pipenv](https://github.com/sentriz/fish-pipenv)
     - [zsh](http://zsh.sourceforge.net/) - Experimenting
-    - [bash](https://www.gnu.org/software/bash/) - Portable and Faithful
+    - [bash](https://www.gnu.org/software/bash/) - Portable and Faithful; Primary for Shell Scripts
 - **Python**
-    - [CPython v3+](https://www.python.org/downloads/) - Primary Interpreter
+    - [CPython v3](https://www.python.org/downloads/) - Primary Interpreter
         - Use [Homebrew](https://brew.sh/) to install and upgrade my *default* interpreter
         - Use [pyenv](https://github.com/pyenv/pyenv) to install additional distributions and versions needed by projects
         - [pew]() to manage my general-purpose virtual environments

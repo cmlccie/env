@@ -33,6 +33,11 @@ for i in ${@}; do
         dev3=true
         all=
         ;;
+
+        conda)
+        conda=true
+        all=
+        ;;
     esac
 done
 
@@ -109,4 +114,10 @@ if [[ ${dev3} ]] || [[ ${all} ]]; then
     sort -o python/dev3-requirements.txt python/dev3-requirements.txt
     pew rm dev3
     pew new -d -p python3 -r python/dev3-requirements.txt dev3
+fi
+
+
+if [[ ${conda} ]] || [[ ${all} ]]; then
+    printf "\n==> Updating packages in the Conda base environment\n"
+    conda update -n base --all -y
 fi

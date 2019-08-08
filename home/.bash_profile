@@ -1,4 +1,4 @@
-echo "Loading: .bash_profile"
+# echo "Loading: .bash_profile"
 
 # If supported, enable globstar
 if shopt -q globstar; then
@@ -6,28 +6,21 @@ if shopt -q globstar; then
 fi
 
 if shopt -q login_shell; then
-	# Login Shell - Initialize Global Environment Variables
-	echo "Login Shell"
+	# Login Shell
+	# echo "Login Shell"
 
-	### PATH Extensions
-	## Prefixes
-	# Google Cloud SDK
-	if [ -x ~/dev/tools/google-cloud-sdk/path.bash.inc ]; then
-		source ~/dev/tools/google-cloud-sdk/path.bash.inc
-	fi
-	
-	# Local Directories
-	PATH=~/dev/bin:~/.local/bin:$PATH
-
-	export PATH
-
-
-	## Localization
+    ### Shell Configuration
+    export SHELL=$(which bash)
+	export EDITOR=code
 	export LC_ALL=en_US.UTF-8
 	export LANG=en_US.UTF-8
 
+	### Install Local Paths
+	if [[ -e ${HOME}/.paths.bash ]]; then
+		source ${HOME}/.paths.bash
+	fi
 
-	## Tools Configuration
+	### Tools Configuration
 	# gpg
 	export GPG_TTY=$(tty)
 
@@ -35,8 +28,8 @@ if shopt -q login_shell; then
 	export DIRENV_LOG_FORMAT=
 
     # pew
-    export WORKON_HOME=~/.local/share/virtualenvs
-    export PROJECT_HOME=~/dev/projects
+    export WORKON_HOME=${HOME}/.local/share/virtualenvs
+    export PROJECT_HOME=${HOME}/dev/projects
 
 	# pipenv
 	export PIPENV_VENV_IN_PROJECT=1
@@ -48,26 +41,13 @@ if shopt -q login_shell; then
 		eval "$(pyenv init -)"
 	fi
 
+	# conda
+	if command -v conda 1>/dev/null 2>&1; then
+		source $(conda info --root)/etc/profile.d/conda.sh
+	fi
+
 fi
 
 
 # Load .bashrc to initialize Interactive / Non-Interactive Environments
-source ~/.bashrc
-
-
-# added by Anaconda3 2018.12 installer
-# >>> conda init >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$(CONDA_REPORT_ERRORS=false '/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     \eval "$__conda_setup"
-# else
-#     if [ -f "/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/anaconda3/etc/profile.d/conda.sh"
-#         CONDA_CHANGEPS1=false conda activate base
-#     else
-#         \export PATH="/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda init <<<
+source ${HOME}/.bashrc

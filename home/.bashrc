@@ -1,23 +1,18 @@
-echo "Loading: .bashrc"
+# echo "Loading: .bashrc"
 
 if [[ $- == *i* ]]; then
     # Interactive Shell
-    echo "Interactive Shell"
-
-    ### Configure Shell
-    HISTCONTROL=ignoreboth
-    HISTSIZE=1000
-    HISTFILESIZE=2000
-    shopt -s histappend
-    shopt -s checkwinsize
-    shopt -s globstar
-
+    # echo "Interactive Shell"
 
     # Enable color support
     export CLICOLOR=1
     export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
     if command -v dircolors 1>/dev/null 2>&1; then
-        test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+        if [[ -e ${HOME}/.dircolors ]]; then
+            eval "$(dircolors -b ${HOME}/.dircolors)"
+        else
+            eval "$(dircolors -b)"
+        fi
         alias ls='ls --color=auto'
         alias la='ls -la --color=auto'
         alias dir='dir --color=auto'
@@ -75,38 +70,32 @@ if [[ $- == *i* ]]; then
     PS1="\[\e[34m\]\W\[\e[m\]\[\e[32m\]\`parse_git_branch\`\[\e[m\] \[\e[34m\]\\$\[\e[m\] "
 
 
-    ### Shell Tools
-    ## pyenv
-    command -v pyenv 1>/dev/null 2>&1 && eval "`pyenv init -`"
+    ### Tool Configuration
+    # pew
+    if command -v pew 1>/dev/null 2>&1; then
+        source $(pew shell_config)
+    fi
 
-    ## pew
-    command -v pew 1>/dev/null 2>&1 && source $(pew shell_config)
+    # direnv
+    if command -v direnv 1>/dev/null 2>&1; then
+        eval "$(direnv hook bash)"
+    fi
 
-    ## pip
-    command -v pip 1>/dev/null 2>&1 && eval "`pip completion --bash`"
-    command -v pip3 1>/dev/null 2>&1 && eval "`pip3 completion --bash`"
+    # iTerm2
+    if [[ -e ${HOME}/.iterm2_shell_integration.bash ]]; then
+        source ${HOME}/.iterm2_shell_integration.bash
+    fi
 
-    ## pipenv
-    # pipenv --completion
-    _pipenv_completion() {
-        local IFS=$'\t'
-        COMPREPLY=( $( env COMP_WORDS="${COMP_WORDS[*]}" \
-                    COMP_CWORD=$COMP_CWORD \
-                    _PIPENV_COMPLETE=complete-bash $1 ) )
-        return 0
-    }
-    complete -F _pipenv_completion -o default pipenv
-
-    ## direnv
-    command -v direnv 1>/dev/null 2>&1 && eval "`direnv hook bash`"
-
-    ## travis
-    [[ -f ~/.travis/travis.sh ]] && source ~/.travis/travis.sh
+    # travis
+    if [[ -e ${HOME}/.travis/travis.sh ]]; then
+        source ${HOME}/.travis/travis.sh
+    fi
 
 
-    ### Aliases
-    [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
-    alias swift='PATH="/usr/bin:$PATH" swift'
+    ### Bash Aliases
+    if [[ -e ${HOME}/.aliases.bash ]]; then
+        source ${HOME}/.aliases.bash
+    fi
 
 
 else
@@ -114,6 +103,8 @@ else
     echo "Non-Interactive Shell"
 
     ## direnv
-    command -v direnv 1>/dev/null 2>&1 && eval $(direnv export bash)
+    if command -v direnv 1>/dev/null 2>&1; then
+        eval "$(direnv export bash)"
+    fi
 
 fi

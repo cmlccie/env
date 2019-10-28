@@ -23,6 +23,9 @@ if status --is-login
 	# direnv
 	set -gx DIRENV_LOG_FORMAT ""
 
+	# virtualenv
+	set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+
     # pew
     set -gx WORKON_HOME {$HOME}/.local/share/virtualenvs
     set -gx PROJECT_HOME {$HOME}/dev/projects

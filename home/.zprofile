@@ -1,8 +1,8 @@
-echo "Loading: .zprofile"
+# echo "Loading: .zprofile"
 
 if [[ -o login ]]; then
 	# Login Shell
-	echo "Login Shell"
+	# echo "Login Shell"
 
     ### Shell Configuration
 	setopt extendedglob

@@ -1,19 +1,20 @@
-# echo "Loading: .zprofile"
+echo "Loading: .zprofile"
 
 if [[ -o login ]]; then
 	# Login Shell
-	# echo "Login Shell"
+	echo "Login Shell"
 
     ### Shell Configuration
+	setopt extendedglob
     export SHELL=$(which zsh)
     export EDITOR=code
 	export LC_ALL=en_US.UTF-8
 	export LANG=en_US.UTF-8
 
 	### Install Local Paths
-	if [[ -e ${HOME}/.paths.zsh ]]; then
-		source ${HOME}/.paths.zsh
-	fi
+	# if [[ -e ${HOME}/.paths.zsh ]]; then
+	# 	source ${HOME}/.paths.zsh
+	# fi
 
 	### Tools Configuration
 	# gpg
@@ -32,9 +33,9 @@ if [[ -o login ]]; then
 	export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
 	# pyenv
-	if command -v pyenv 1>/dev/null 2>&1; then
-		eval "$(pyenv init -)"
-	fi
+	# if command -v pyenv 1>/dev/null 2>&1; then
+	# 	eval "$(pyenv init -)"
+	# fi
 
 	# conda
 	if command -v conda 1>/dev/null 2>&1; then

@@ -1,6 +1,7 @@
 Flask
 Jinja2
 PyYAML
+ansible
 autopep8
 beautifulsoup4
 click

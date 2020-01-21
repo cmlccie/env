@@ -1,8 +1,8 @@
 # echo "Loading: .zshrc"
 
 if [[ -o interactive ]]; then
-	# Interactive Shell
-	# echo "Interactive Shell"
+    # Interactive Shell
+    # echo "Interactive Shell"
 
 
     ### Shell Configuration

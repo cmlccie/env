@@ -49,13 +49,13 @@ if [[ ${brew} ]] || [[ ${all} ]]; then
     brew upgrade
     brew cleanup
 
-    printf "\nDowngrading Fish to v2.7.1; while v3.0 is broken"
-    # To be fixed in Fish v3.1?
-    # https://github.com/fish-shell/fish-shell/issues/5456
-    # https://github.com/pypa/pipenv/issues/3414
-    brew unlink fish
-    brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/2827b020c3366ea93566a344167ba62388c16c7d/Formula/fish.rb
-    brew link fish
+    # printf "\nDowngrading Fish to v2.7.1; while v3.0 is broken"
+    # # To be fixed in Fish v3.1?
+    # # https://github.com/fish-shell/fish-shell/issues/5456
+    # # https://github.com/pypa/pipenv/issues/3414
+    # brew unlink fish
+    # brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/2827b020c3366ea93566a344167ba62388c16c7d/Formula/fish.rb
+    # brew link fish
 
 
     printf "\nUpdating pyenv shims"

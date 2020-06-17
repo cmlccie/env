@@ -14,6 +14,11 @@ for i in ${@}; do
         all=
         ;;
 
+        poetry)
+        poetry=true
+        all=
+        ;;
+
         sys2)
         sys2=true
         all=
@@ -60,6 +65,18 @@ if [[ ${brew} ]] || [[ ${all} ]]; then
 
     printf "\nUpdating pyenv shims"
     pyenv rehash
+fi
+
+
+if [[ ${poetry} ]] || [[ ${all} ]]; then
+    printf "\n==> Intalling/upgrading Python Poetry\n"
+    if [[ -z "$(poetry --version 2>/dev/null)" ]]; then
+        printf "Updating poetry..."
+        poetry self update
+    else
+        printf "Updating poetry..."
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+    fi
 fi
 
 

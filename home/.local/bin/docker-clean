@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Remove all stopped Containers
+docker container prune --force
+
+
+# Remove all unused Volumes
+docker volume prune --force
+
+
+# Remove all untagged images
+docker image ls | grep '<none>' | awk '{print $3}' | xargs docker image rm

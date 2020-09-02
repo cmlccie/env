@@ -2,6 +2,7 @@
 .DS_Store
 .env
 .envrc
+.python-version
 .idea/
 .ipynb_checkpoints/
 .venv/

@@ -23,6 +23,7 @@ pandas
 plotly
 plotly-express
 psycopg2-binary
+pydantic
 pytest
 python-dateutil
 python-ldap>=3.0.0b3

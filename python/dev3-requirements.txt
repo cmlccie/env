@@ -2,8 +2,8 @@ Flask
 Jinja2
 PyYAML
 ansible
-autopep8
 beautifulsoup4
+black
 click
 doc8
 docutils
@@ -21,12 +21,10 @@ numpy
 openpyxl
 pandas
 plotly
-plotly-express
 psycopg2-binary
 pydantic
 pytest
 python-dateutil
-python-ldap>=3.0.0b3
 pytz
 pyyaml
 requests
@@ -36,10 +34,8 @@ scikit-learn
 scipy
 seaborn
 sklearn
-smartsheet-python-sdk
 sphinx
 sqlalchemy
 tablib
-webexteamssdk
 xlrd
 xlsxwriter

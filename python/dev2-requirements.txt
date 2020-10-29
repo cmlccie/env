@@ -1,13 +1,1 @@
-Jinja2
-PyYAML
-click
 future
-google-api-python-client
-lxml
-python-dateutil
-python-ldap
-pytz
-requests
-requests-ntlm
-requests-toolbelt
-webexteamssdk

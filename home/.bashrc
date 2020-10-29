@@ -6,18 +6,8 @@ if [[ $- == *i* ]]; then
 
     # Enable color support
     export CLICOLOR=1
+    export LSCOLORS="exfxcxdxbxegedabagacad"
     export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
-    if command -v dircolors 1>/dev/null 2>&1; then
-        if [[ -e ${HOME}/.dircolors ]]; then
-            eval "$(dircolors -b ${HOME}/.dircolors)"
-        else
-            eval "$(dircolors -b)"
-        fi
-        alias ls='ls --color=auto'
-        alias la='ls -la --color=auto'
-        alias dir='dir --color=auto'
-        alias vdir='vdir --color=auto'
-    fi
 
 
     ### Initialize Interactive Prompt

@@ -12,8 +12,8 @@ if [[ -o login ]]; then
     export LANG=en_US.UTF-8
 
     ### Install Local Paths
-    if [[ -e ${HOME}/.paths.zsh ]]; then
-    	source ${HOME}/.paths.zsh
+    if [[ -e ${HOME}/.paths.sh ]]; then
+    	source ${HOME}/.paths.sh
     fi
 
     ### Tools Configuration

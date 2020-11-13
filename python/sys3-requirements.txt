@@ -1,4 +1,3 @@
-awscli
 cookiecutter
 doitlive
 flake8

@@ -71,6 +71,11 @@ if [[ $- == *i* ]]; then
         eval "$(direnv hook bash)"
     fi
 
+    # isengardcli
+    if command -v isengardcli 1>/dev/null 2>&1; then
+        eval "$(isengardcli shell-profile --keep-prompt)"
+    fi
+
     # iTerm2
     if [[ -e ${HOME}/.iterm2_shell_integration.bash ]]; then
         source ${HOME}/.iterm2_shell_integration.bash

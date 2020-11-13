@@ -47,6 +47,11 @@ if [[ -o interactive ]]; then
         eval "$(direnv hook zsh)"
     fi
 
+    # isengardcli
+    if command -v isengardcli 1>/dev/null 2>&1; then
+        eval "$(isengardcli shell-profile --keep-prompt)"
+    fi
+
     # iTerm
     if [[ -e ${HOME}/.iterm2_shell_integration.zsh ]]; then
         source ${HOME}/.iterm2_shell_integration.zsh

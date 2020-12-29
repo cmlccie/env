@@ -74,9 +74,20 @@ if [[ ${poetry} ]] || [[ ${all} ]]; then
         printf "Updating poetry..."
         poetry self update
     else
-        printf "Updating poetry..."
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+        printf "Installing poetry..."
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     fi
+    source $HOME/.poetry/env
+    printf "Enabling poetry tab completion\n"
+    # Bash (Homebrew)
+    poetry completions bash > $(brew --prefix)/etc/bash_completion.d/poetry.bash-completion
+
+    # Fish
+    poetry completions fish > ~/.config/fish/completions/poetry.fish
+
+    # Oh-My-Zsh
+    mkdir -pv $HOME/.oh-my-zsh/custom/plugins/poetry
+    poetry completions zsh > $HOME/.oh-my-zsh/custom/plugins/poetry/_poetry
 fi
 
 

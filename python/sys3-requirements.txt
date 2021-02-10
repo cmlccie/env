@@ -1,6 +1,7 @@
+black
 cookiecutter
 doitlive
 flake8
 ipython
+mkdocs
 pew
-powerline-status

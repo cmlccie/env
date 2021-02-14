@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Remove all Terraform directories (with cached providers, plugins, and modules)
+find . -name '.DS_Store' -exec rm -rf {} +

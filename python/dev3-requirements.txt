@@ -1,9 +1,7 @@
 Flask
 Jinja2
 PyYAML
-ansible
 beautifulsoup4
-black
 click
 doc8
 docutils
@@ -36,6 +34,5 @@ seaborn
 sklearn
 sphinx
 sqlalchemy
-tablib
 xlrd
 xlsxwriter

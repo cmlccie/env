@@ -23,6 +23,9 @@ if [[ -o login ]]; then
     # direnv
     export DIRENV_LOG_FORMAT=
 
+    # poetry
+    export POETRY_VIRTUALENVS_IN_PROJECT=true
+
     # pew
     export WORKON_HOME=${HOME}/.local/share/virtualenvs
     export PROJECT_HOME=${HOME}/dev/projects

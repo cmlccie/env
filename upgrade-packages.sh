@@ -70,7 +70,7 @@ fi
 
 if [[ ${poetry} ]] || [[ ${all} ]]; then
     printf "\n==> Intalling/upgrading Python Poetry\n"
-    if [[ -z "$(poetry --version 2>/dev/null)" ]]; then
+    if [[ $(poetry --version 2>/dev/null) ]]; then
         printf "Updating poetry..."
         poetry self update
     else

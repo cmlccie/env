@@ -35,11 +35,6 @@ if [[ -o login ]]; then
     export PIPENV_SHELL_FANCY=1
     export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
-    # pyenv
-    if command -v pyenv 1>/dev/null 2>&1; then
-        eval "$(pyenv init -)"
-    fi
-
     # conda
     if command -v conda 1>/dev/null 2>&1; then
         source $(conda info --root)/etc/profile.d/conda.sh

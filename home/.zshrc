@@ -17,7 +17,7 @@ if [[ -o interactive ]]; then
     if [[ -e ${HOME}/.oh-my-zsh ]]; then
         export ZSH=${HOME}/.oh-my-zsh
 
-        DEFAULT_USER=chrlunsf
+        DEFAULT_USER=$(whoami)
 
         VIRTUAL_ENV_DISABLE_PROMPT=1
 
@@ -28,7 +28,6 @@ if [[ -o interactive ]]; then
         ENABLE_CORRECTION="true"
         COMPLETION_WAITING_DOTS="true"
 
-        # pyenv 
         plugins=(aws chucknorris docker gitfast pipenv z)
 
         source $ZSH/oh-my-zsh.sh
@@ -40,6 +39,11 @@ if [[ -o interactive ]]; then
     # pew
     if command -v pew 1>/dev/null 2>&1; then
         source $(pew shell_config)
+    fi
+
+    # pyenv
+    if command -v pyenv 1>/dev/null 2>&1; then
+        eval "$(pyenv init -)" > /dev/null
     fi
 
     # direnv

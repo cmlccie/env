@@ -13,7 +13,7 @@ if [[ -o login ]]; then
 
     ### Install Local Paths
     if [[ -e ${HOME}/.paths.sh ]]; then
-    	source ${HOME}/.paths.sh
+    	source "${HOME}/.paths.sh"
     fi
 
     ### Tools Configuration
@@ -25,15 +25,6 @@ if [[ -o login ]]; then
 
     # poetry
     export POETRY_VIRTUALENVS_IN_PROJECT=true
-
-    # pew
-    export WORKON_HOME=${HOME}/.local/share/virtualenvs
-    export PROJECT_HOME=${HOME}/dev/projects
-
-    # pipenv
-    export PIPENV_VENV_IN_PROJECT=1
-    export PIPENV_SHELL_FANCY=1
-    export PIPENV_DEFAULT_PYTHON_VERSION=3.7
 
     # conda
     if command -v conda 1>/dev/null 2>&1; then

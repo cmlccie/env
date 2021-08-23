@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
+# Add Ruby
+[[ -d "/usr/local/lib/ruby/gems/2.6.0/bin" ]] && export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
+[[ -d "/usr/local/opt/ruby/bin" ]] && export PATH="/usr/local/opt/ruby/bin:$PATH"
+
 # Add homebrew /usr/local/sbin
 [[ -d "/usr/local/sbin" ]] && export PATH="/usr/local/sbin:$PATH"
 
 # Add local user bin
-[[ -d "$HOME/.local/bin" ]] &&  export PATH="$HOME/.local/bin:$PATH"
+[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
 # Add Amazon Builder Toolbox
-[[ -d "$HOME/.toolbox/bin" ]] &&  export PATH="$HOME/.toolbox/bin:$PATH"
+[[ -d "$HOME/.toolbox/bin" ]] && export PATH="$HOME/.toolbox/bin:$PATH"
 
 # Add Poetry
 [[ -d "$HOME/.poetry/bin" ]] && export PATH="$HOME/.poetry/bin:$PATH"
@@ -28,8 +32,16 @@ if [[ -d "$HOME/env/tools/instantclient" ]]; then
     export PATH=$PATH:$HOME/env/tools/instantclient
 fi
 
+# Export PKG_CONFIG_PATH
+[[ -d "/usr/local/lib" ]] && export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/lib"
+[[ -d "/usr/local/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig"
+[[ -d "/usr/local/opt/readline/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/readline/lib/pkgconfig"
+
+# Export PYTHONPATH
+[[ -d "${HOME}/.local/lib" ]] && export PYTHONPATH="${HOME}/.local/lib:$PYTHONPATH"
+
 # Export local JAVA_HOME
-if [[ -x "/usr/libexec/java_home" ]]; then
+if [[ -x "/usr/libexec/java_home" ]] && /usr/libexec/java_home 1>/dev/null 2>&1; then
     java_home=$(/usr/libexec/java_home)
     export JAVA_HOME=$java_home
 fi

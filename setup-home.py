@@ -19,7 +19,7 @@ HOME_DIRECTORY_MODE = 0o770
 user_home = Path.home()
 
 repo_root = Path(__file__).parent.resolve()
-repo_home = repo_root/"home"
+repo_home = repo_root / "home"
 
 
 # Helper Functions
@@ -92,8 +92,11 @@ def create_home_directory_symbolic_links():
 
 def move_and_symlink_file(file_path: Path):
     """Move a file from user_home to repo_home; replace it with a symlink."""
-    assert file_path.is_file() and not file_path.is_symlink() \
-           and user_home in file_path.parents
+    assert (
+        file_path.is_file()
+        and not file_path.is_symlink()
+        and user_home in file_path.parents
+    )
 
     original_path = file_path
     new_path = translate_home_path(original_path)
@@ -132,7 +135,7 @@ def main(file_paths: Optional[List[Path]] = None):
         create_home_directory_symbolic_links()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) > 1:
         _, *file_paths = sys.argv
         file_paths = [Path(p).expanduser().resolve() for p in file_paths]

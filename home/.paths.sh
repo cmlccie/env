@@ -35,7 +35,7 @@ if [[ -x "/usr/libexec/java_home" ]]; then
 fi
 
 # Export local RUBY_CONFIGURE_OPTS
-if command -v brew 1>/dev/null 2>&1 && brew --prefix openssl@1.1; then
-    openssl_directory=$(brew --prefix openssl@1.1)
+if command -v brew 1>/dev/null 2>&1 && brew --prefix openssl@1.1 1>/dev/null 2>&1; then
+    openssl_directory="$(brew --prefix openssl@1.1)"
     export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_directory"
 fi

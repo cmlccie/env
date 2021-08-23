@@ -1,3 +1,4 @@
-echo "Loading: .profile"
+#!/usr/bin/env bash
+# echo "Loading: .profile"
 
-source ${HOME}/.bash_profile
+source "${HOME}/.bash_profile"

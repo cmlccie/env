@@ -37,7 +37,7 @@ for i in "${@}"; do
 done
 
 
-if [[ ${brew} ]] || [[ ${all} ]]; then
+if command -v brew 1>/dev/null 2>&1 && [[ ${brew} ]] || [[ ${all} ]]; then
     printf "\n==> Upgrading Homebrew Packages\n"
     brew update
     brew doctor
@@ -47,7 +47,7 @@ fi
 
 
 if [[ ${poetry} ]] || [[ ${all} ]]; then
-    printf "\n==> Intalling/upgrading Python Poetry\n"
+    printf "\n==> Installing/upgrading Python Poetry\n"
     if command -v poetry 1>/dev/null 2>&1; then
         printf "Updating poetry..."
         poetry self update
@@ -111,7 +111,7 @@ if [[ ${sys3} ]] || [[ ${all} ]]; then
 fi
 
 
-if [[ ${conda} ]] || [[ ${all} ]]; then
+if command -v conda 1>/dev/null 2>&1 && [[ ${conda} ]] || [[ ${all} ]]; then
     printf "\n==> Updating packages in the Conda base environment\n"
     conda update -n base --all -y
 fi

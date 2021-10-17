@@ -37,7 +37,7 @@ for i in "${@}"; do
 done
 
 
-if command -v brew 1>/dev/null 2>&1 && [[ ${brew} ]] || [[ ${all} ]]; then
+if command -v brew 1>/dev/null 2>&1 && { [[ ${brew} ]] || [[ ${all} ]]; }; then
     printf "\n==> Upgrading Homebrew Packages\n"
     brew update
     brew doctor
@@ -111,7 +111,7 @@ if [[ ${sys3} ]] || [[ ${all} ]]; then
 fi
 
 
-if command -v conda 1>/dev/null 2>&1 && [[ ${conda} ]] || [[ ${all} ]]; then
+if command -v conda 1>/dev/null 2>&1 && { [[ ${conda} ]] || [[ ${all} ]]; }; then
     printf "\n==> Updating packages in the Conda base environment\n"
     conda update -n base --all -y
 fi

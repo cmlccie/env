@@ -56,14 +56,8 @@ if [[ -o interactive ]]; then
         source "${HOME}/.iterm2_shell_integration.zsh"
     fi
 
-    # travis
-    if [[ -e ${HOME}/.travis/travis.sh ]]; then
-        source "${HOME}/.travis/travis.sh"
-    fi
-
-
-    ### Zsh Aliases
-    if [[ -e ${HOME}/.aliases.zsh ]]; then
+    ### Aliases
+    if [[ -e ${HOME}/.aliases.sh ]]; then
         source "${HOME}/.aliases.sh"
     fi
 

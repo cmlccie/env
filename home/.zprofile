@@ -11,10 +11,6 @@ if [[ -o login ]]; then
     export LC_ALL=en_US.UTF-8
     export LANG=en_US.UTF-8
 
-    if [[ -e /opt/homebrew/bin/brew ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
-
     # Local paths
     if [[ -e ${HOME}/.paths.sh ]]; then
     	source "${HOME}/.paths.sh"

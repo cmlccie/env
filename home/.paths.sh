@@ -4,17 +4,13 @@
 [[ -d "/usr/local/lib/ruby/gems/2.6.0/bin" ]] && export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
 [[ -d "/usr/local/opt/ruby/bin" ]] && export PATH="/usr/local/opt/ruby/bin:$PATH"
 
-# Add homebrew /usr/local/sbin
-[[ -d "/usr/local/sbin" ]] && export PATH="/usr/local/sbin:$PATH"
+# Homebrew
+if command -v brew 1>/dev/null 2>&1; then
+    eval "$(brew shellenv)"
+fi
 
 # Add local user bin
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
-
-# Add Amazon Builder Toolbox
-[[ -d "$HOME/.toolbox/bin" ]] && export PATH="$HOME/.toolbox/bin:$PATH"
-
-# Add Poetry
-[[ -d "$HOME/.poetry/bin" ]] && export PATH="$HOME/.poetry/bin:$PATH"
 
 # Add pyenv
 if [[ -d "$HOME/.pyenv" ]]; then

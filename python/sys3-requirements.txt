@@ -1,4 +1,5 @@
 black
+boto3
 cookiecutter
 doitlive
 flake8

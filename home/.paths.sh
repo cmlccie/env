@@ -12,6 +12,11 @@ fi
 # Add local user bin
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
+# Go
+if command -v go 1>/dev/null 2>&1 && [[ -d "$HOME/.local/bin" ]]; then
+    export GOBIN="$HOME/.local/bin"
+fi
+
 # Add pyenv
 if [[ -d "$HOME/.pyenv" ]]; then
     export PYENV_ROOT="$HOME/.pyenv"

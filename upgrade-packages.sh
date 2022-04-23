@@ -33,6 +33,11 @@ for i in "${@}"; do
         conda=true
         all=
         ;;
+
+        node)
+        conda=true
+        all=
+        ;;
     esac
 done
 
@@ -67,7 +72,7 @@ if [[ ${poetry} ]] || [[ ${all} ]]; then
 fi
 
 
-if [[ ${sys2} ]] || [[ ${all} ]]; then
+if { [[ ${sys2} ]] || [[ ${all} ]]; } && command -v pip2 --version 1>/dev/null 2>&1; then
     printf "\n==> Performing a clean install of the python2 system packages\n"
 
     sys2_packages=$(mktemp -t sys2_packages)
@@ -89,7 +94,7 @@ if [[ ${sys2} ]] || [[ ${all} ]]; then
 fi
 
 
-if [[ ${sys3} ]] || [[ ${all} ]]; then
+if { [[ ${sys3} ]] || [[ ${all} ]]; } && command -v pip3 --version 1>/dev/null 2>&1; then
     printf "\n==> Performing a clean install of the python3 system packages\n"
 
     sys3_packages=$(mktemp -t sys3_packages)
@@ -111,7 +116,13 @@ if [[ ${sys3} ]] || [[ ${all} ]]; then
 fi
 
 
-if command -v conda 1>/dev/null 2>&1 && { [[ ${conda} ]] || [[ ${all} ]]; }; then
+if { [[ ${conda} ]] || [[ ${all} ]]; } && command -v conda 1>/dev/null 2>&1; then
     printf "\n==> Updating packages in the Conda base environment\n"
     conda update -n base --all -y
+fi
+
+
+if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm --help 1>/dev/null 2>&1; then
+    printf "\n==> Updating packages in the Node global environment\n"
+    npm update -g --no-fund
 fi

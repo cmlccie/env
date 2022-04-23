@@ -1,3 +1,4 @@
+awsipranges
 black
 boto3
 cookiecutter
@@ -6,3 +7,6 @@ flake8
 ipython
 mkdocs
 mkdocs-material
+mypy
+requests
+twilio

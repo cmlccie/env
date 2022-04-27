@@ -51,6 +51,11 @@ if [[ -o interactive ]]; then
         eval "$(isengardcli shell-profile --keep-prompt)"
     fi
 
+    # Twilio CLI
+    if command -v twilio 1>/dev/null 2>&1; then
+        eval $(twilio autocomplete:script zsh)
+    fi
+
     # iTerm
     if [[ -e ${HOME}/.iterm2_shell_integration.zsh ]]; then
         source "${HOME}/.iterm2_shell_integration.zsh"

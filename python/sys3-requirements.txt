@@ -1,6 +1,8 @@
 awsipranges
 black
 boto3
+boto3-stubs
+botocore-stubs
 cookiecutter
 doitlive
 flake8

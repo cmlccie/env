@@ -41,6 +41,13 @@ if [[ -o interactive ]]; then
         eval "$(pyenv init -)" > /dev/null
     fi
 
+    # nvm
+    if [[ -d "$HOME/.nvm" ]]; then
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    fi
+
     # direnv
     if command -v direnv 1>/dev/null 2>&1; then
         eval "$(direnv hook zsh)"

@@ -124,5 +124,9 @@ fi
 
 if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm --help 1>/dev/null 2>&1; then
     printf "\n==> Updating packages in the Node global environment\n"
+    if command -v nvm -v 1>/dev/null 2>&1; then
+        nvm use system
+    fi
+
     npm update -g --no-fund
 fi

@@ -53,9 +53,9 @@ if [[ -o interactive ]]; then
         eval "$(direnv hook zsh)"
     fi
 
-    # isengardcli
-    if command -v isengardcli 1>/dev/null 2>&1; then
-        eval "$(isengardcli shell-profile --keep-prompt)"
+    # op
+    if command -v op 1>/dev/null 2>&1; then
+        eval "$(op completion zsh)"; compdef _op op
     fi
 
     # Twilio CLI

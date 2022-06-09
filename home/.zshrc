@@ -14,6 +14,11 @@ if [[ -o interactive ]]; then
     ### Shell Configuration
     export TERM="xterm-256color"
 
+    # nvm
+    if [[ -d "$HOME/.nvm" ]]; then
+        export NVM_DIR="$HOME/.nvm"
+    fi
+
     if [[ -e ${HOME}/.oh-my-zsh ]]; then
         export ZSH="${HOME}/.oh-my-zsh"
 
@@ -28,7 +33,7 @@ if [[ -o interactive ]]; then
         ENABLE_CORRECTION="true"
         COMPLETION_WAITING_DOTS="true"
 
-        plugins=(aws chucknorris docker gitfast pipenv z)
+        plugins=(aws chucknorris cowthink docker gitfast z zsh-nvm)
 
         source "$ZSH/oh-my-zsh.sh"
     fi
@@ -39,13 +44,6 @@ if [[ -o interactive ]]; then
     # pyenv
     if command -v pyenv 1>/dev/null 2>&1; then
         eval "$(pyenv init -)" > /dev/null
-    fi
-
-    # nvm
-    if [[ -d "$HOME/.nvm" ]]; then
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     fi
 
     # direnv

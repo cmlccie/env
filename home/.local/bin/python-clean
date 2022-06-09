@@ -49,11 +49,6 @@ fi
 if [ ${deep_clean} ]; then
     echo "==> Deep cleaning..."
 
-    if [ -f "Pipfile" ] && [ -n "$(pipenv --version 2>/dev/null)" ]; then
-        echo "Removing pipenv environment"
-        pipenv --rm || true
-    fi
-
     if [ -d ".venv" ]; then
         echo "Removing project virtual environment: .venv"
         rm -rf .venv/

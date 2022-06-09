@@ -35,7 +35,7 @@ for i in "${@}"; do
         ;;
 
         node)
-        conda=true
+        node=true
         all=
         ;;
     esac
@@ -122,11 +122,12 @@ if { [[ ${conda} ]] || [[ ${all} ]]; } && command -v conda 1>/dev/null 2>&1; the
 fi
 
 
-if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm --help 1>/dev/null 2>&1; then
-    printf "\n==> Updating packages in the Node global environment\n"
-    if command -v nvm -v 1>/dev/null 2>&1; then
-        nvm use system
+if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm 1>/dev/null 2>&1; then
+    if [[ -d "$NVM_DIR" ]]; then
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm use default
     fi
 
-    npm update -g --no-fund
+    printf "\n==> Updating packages in the Node global environment\n"
+    npm update --location=global --no-fund
 fi

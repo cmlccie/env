@@ -56,7 +56,16 @@ if [[ ${poetry} ]] || [[ ${all} ]]; then
     if command -v poetry 1>/dev/null 2>&1; then
         printf "Updating poetry..."
         poetry self update
-    else
+    
+        update_status=$?
+        if [[ $update_status -ne 0 ]]; then
+            printf "Update failed. Removing existing poetry installalation."
+            [[ -d "$HOME/Library/Application Support/pypoetry" ]] && rm -rf "$HOME/Library/Application Support/pypoetry"
+            [[ -d "$HOME/.local/share/pypoetry" ]] && rm -rf "$HOME/.local/share/pypoetry"
+        fi
+    fi
+
+    if ! [[ $(command -v poetry 1>/dev/null 2>&1) ]]; then
         printf "Installing poetry..."
         curl -sSL https://install.python-poetry.org | python3 -
     fi

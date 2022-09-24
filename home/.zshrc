@@ -51,6 +51,10 @@ if [[ -o interactive ]]; then
         eval "$(direnv hook zsh)"
     fi
 
+    if command -v kubectl 1>/dev/null 2>&1; then
+        source <(kubectl completion zsh)
+    fi
+
     # op
     if command -v op 1>/dev/null 2>&1; then
         eval "$(op completion zsh)"; compdef _op op

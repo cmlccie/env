@@ -52,32 +52,27 @@ fi
 
 
 if [[ ${poetry} ]] || [[ ${all} ]]; then
-    printf "\n==> Installing/upgrading Python Poetry\n"
     if command -v poetry 1>/dev/null 2>&1; then
-        printf "Updating poetry..."
+        printf "\n==> Upgrading Python Poetry\n"
         poetry self update
     
         update_status=$?
         if [[ $update_status -ne 0 ]]; then
-            printf "Update failed. Removing existing poetry installalation."
+            printf "\nUpdate failed. Removing existing poetry installalation.\n"
             [[ -d "$HOME/Library/Application Support/pypoetry" ]] && rm -rf "$HOME/Library/Application Support/pypoetry"
             [[ -d "$HOME/.local/share/pypoetry" ]] && rm -rf "$HOME/.local/share/pypoetry"
+
+            printf "\nReinstalling poetry...\n"
+            curl -sSL https://install.python-poetry.org | python3 -
         fi
+
+        printf "\nEnabling poetry tab completion\n"
+        # Bash (Homebrew)
+        poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"
+        # Oh-My-Zsh
+        mkdir -pv "$HOME/.oh-my-zsh/custom/plugins/poetry"
+        poetry completions zsh > "$HOME/.oh-my-zsh/custom/plugins/poetry/_poetry"
     fi
-
-    if ! [[ $(command -v poetry 1>/dev/null 2>&1) ]]; then
-        printf "Installing poetry..."
-        curl -sSL https://install.python-poetry.org | python3 -
-    fi
-
-    source "$HOME/.poetry/env"
-
-    printf "Enabling poetry tab completion\n"
-    # Bash (Homebrew)
-    poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"
-    # Oh-My-Zsh
-    mkdir -pv "$HOME/.oh-my-zsh/custom/plugins/poetry"
-    poetry completions zsh > "$HOME/.oh-my-zsh/custom/plugins/poetry/_poetry"
 fi
 
 

@@ -22,8 +22,9 @@ fi
 [[ -d "/usr/local/opt/ruby/bin" ]] && export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 # Go
-if command -v go 1>/dev/null 2>&1 && [[ -d "$HOME/.local/bin" ]]; then
-    export GOBIN="$HOME/.local/bin"
+if command -v go 1>/dev/null 2>&1 && [[ -d "$HOME/.go" ]]; then
+    export GOPATH="$HOME/.go"
+    [[ -d "$GOPATH/bin" ]] && export PATH="$HOME/.go/bin:$PATH"
 fi
 
 # pyenv

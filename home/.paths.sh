@@ -24,7 +24,8 @@ fi
 # Go
 if command -v go 1>/dev/null 2>&1 && [[ -d "$HOME/.go" ]]; then
     export GOPATH="$HOME/.go"
-    [[ -d "$GOPATH/bin" ]] && export PATH="$HOME/.go/bin:$PATH"
+    [[ -d "$GOPATH/bin" ]] && export GOBIN="$HOME/.go/bin"
+    [[ -d "$GOBIN" ]] && export PATH="$GOBIN:$PATH"
 fi
 
 # pyenv

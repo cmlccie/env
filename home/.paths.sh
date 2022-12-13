@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
-# Oracle Instant Client
-if [[ -d "$HOME/env/tools/instantclient" ]]; then
-    export TNS_ADMIN=$HOME/env/tools/instantclient
-    export PATH=$PATH:$HOME/env/tools/instantclient
-fi
-
 # Visual Studio Code (code)
 [[ -d "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ]] && export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Homebrew
-if command -v brew 1>/dev/null 2>&1; then
-    eval "$(brew shellenv)"
-fi
+[[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # AWS Amplify
 [[ -d "$HOME/.amplify/bin" ]] && export PATH="$HOME/.amplify/bin:$PATH"
@@ -56,4 +48,10 @@ fi
 if command -v brew 1>/dev/null 2>&1 && brew --prefix openssl@1.1 1>/dev/null 2>&1; then
     openssl_directory="$(brew --prefix openssl@1.1)"
     export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_directory"
+fi
+
+# Oracle Instant Client
+if [[ -d "$HOME/env/tools/instantclient" ]]; then
+    export TNS_ADMIN=$HOME/env/tools/instantclient
+    export PATH=$PATH:$HOME/env/tools/instantclient
 fi

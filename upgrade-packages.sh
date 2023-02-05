@@ -55,7 +55,7 @@ if [[ ${poetry} ]] || [[ ${all} ]]; then
     if command -v poetry 1>/dev/null 2>&1; then
         printf "\n==> Upgrading Python Poetry\n"
         poetry self update
-    
+
         update_status=$?
         if [[ $update_status -ne 0 ]]; then
             printf "\nUpdate failed. Removing existing poetry installalation.\n"
@@ -128,8 +128,10 @@ fi
 
 if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm 1>/dev/null 2>&1; then
     if [[ -d "$NVM_DIR" ]]; then
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
         nvm use default
+        nvm install 'lts/*' --reinstall-packages-from=current
+        nvm alias default node
     fi
 
     printf "\n==> Updating packages in the Node global environment\n"

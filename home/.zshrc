@@ -14,17 +14,12 @@ if [[ -o interactive ]]; then
     ### Shell Configuration
     export TERM="xterm-256color"
 
-    # nvm
-    if [[ -d "$HOME/.nvm" ]]; then
-        export NVM_DIR="$HOME/.nvm"
-    fi
-
     if [[ -e ${HOME}/.oh-my-zsh ]]; then
         export ZSH="${HOME}/.oh-my-zsh"
 
-        DEFAULT_USER=$(whoami)
+        DEFAULT_USER="$(whoami)"
 
-        VIRTUAL_ENV_DISABLE_PROMPT=1
+        VIRTUAL_ENV_DISABLE_PROMPT="1"
 
         ZSH_THEME="powerlevel10k/powerlevel10k"
         # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -40,54 +35,40 @@ if [[ -o interactive ]]; then
 
     export LSCOLORS="exfxcxdxbxegedabagacad"
 
+
     ### Tool Configuration
     # pyenv
-    if command -v pyenv 1>/dev/null 2>&1; then
-        eval "$(pyenv init -)" > /dev/null
-    fi
+    command -v pyenv 1>/dev/null && eval "$(pyenv init -)" > /dev/null
 
     # NVM
     [[ -e "${HOME}/.nvm" ]] && export NVM_DIR="${HOME}/.nvm"
-    [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
-    [ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+    [[ -s "${NVM_DIR}/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh"
+    [[ -s "${NVM_DIR}/bash_completion" ]] && source "${NVM_DIR}/bash_completion"
 
     # direnv
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv hook zsh)"
-    fi
+    command -v direnv 1>/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
-    if command -v kubectl 1>/dev/null 2>&1; then
-        source <(kubectl completion zsh)
-    fi
+    # kubectl
+    command -v kubectl 1>/dev/null 2>&1 && source <(kubectl completion zsh)
 
     # op
-    if command -v op 1>/dev/null 2>&1; then
-        eval "$(op completion zsh)"; compdef _op op
-    fi
+    command -v op 1>/dev/null 2>&1 && eval "$(op completion zsh)"; compdef _op op
 
     # Twilio CLI
-    if command -v twilio 1>/dev/null 2>&1; then
-        eval $(twilio autocomplete:script zsh)
-    fi
+    command -v twilio 1>/dev/null 2>&1 && eval $(twilio autocomplete:script zsh)
 
     # iTerm
-    if [[ -e ${HOME}/.iterm2_shell_integration.zsh ]]; then
-        source "${HOME}/.iterm2_shell_integration.zsh"
-    fi
+    [[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+
 
     ### Aliases
-    if [[ -e ${HOME}/.aliases.sh ]]; then
-        source "${HOME}/.aliases.sh"
-    fi
-
+    [[ -f ${HOME}/.aliases.sh ]] && source "${HOME}/.aliases.sh"
 
 else
     # Non-Interactive Shell
     echo "Non-Interactive Shell"
 
     ## direnv
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv export zsh)"
-    fi
+    command -v direnv 1>/dev/null 2>&1 && eval "$(direnv export zsh)"
 
 fi

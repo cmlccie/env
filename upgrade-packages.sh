@@ -127,11 +127,18 @@ fi
 
 
 if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm 1>/dev/null 2>&1; then
-    if [[ -d "$NVM_DIR" ]]; then
-        [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+    if [[ -d ${NVM_DIR} ]]; then
+        [[ -s ${NVM_DIR}/nvm.sh ]] && source "${NVM_DIR}/nvm.sh"
         nvm use default
         nvm install 'lts/*' --reinstall-packages-from=current
         nvm alias default node
+
+        printf "\n==> Installing the latest npm\n"
+        nvm install-latest-npm
+
+        printf "\n==> Installing the latest yarn package manager\n"
+        corepack enable
+        corepack prepare yarn@stable --activate
     fi
 
     printf "\n==> Updating packages in the Node global environment\n"

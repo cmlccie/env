@@ -35,6 +35,9 @@ fi
 [[ -d "/usr/local/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig"
 [[ -d "/usr/local/opt/readline/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/readline/lib/pkgconfig"
 
+# Rust Cargo PATH
+[[ -f "${HOME}/.cargo/env" ]] && source "${HOME}/.cargo/env"
+
 # PYTHONPATH
 [[ -d "${HOME}/.local/lib" ]] && export PYTHONPATH="${HOME}/.local/lib:$PYTHONPATH"
 

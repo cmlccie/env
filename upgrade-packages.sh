@@ -38,6 +38,11 @@ for i in "${@}"; do
         node=true
         all=
         ;;
+
+        rust)
+        rust=true
+        all=
+        ;;
     esac
 done
 
@@ -143,4 +148,9 @@ if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm 1>/dev/null 2>&1; then
 
     printf "\n==> Updating packages in the Node global environment\n"
     npm update --location=global --no-fund
+fi
+
+if { [[ ${rust} ]] || [[ ${all} ]]; } && command -v rustup 1>/dev/null 2>&1; then
+    printf "\n==> Updating Rust\n"
+    rustup update
 fi

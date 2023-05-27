@@ -6,7 +6,6 @@
 .idea/
 .ipynb_checkpoints/
 .venv/
-.vscode/
 DerivedData/
 venv/
 scratch/

@@ -7,7 +7,7 @@ if [[ -o login ]]; then
     ### Shell Configuration
     setopt extendedglob
     export SHELL="$(which zsh)"
-    export EDITOR="code"
+    export EDITOR="code --wait"
     export LC_ALL="en_US.UTF-8"
     export LANG="en_US.UTF-8"
 

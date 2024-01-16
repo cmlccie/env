@@ -7,12 +7,10 @@ _Shell configurations_ and _scripts_ to setup my development environments
 - **macOS**
 
   - [VS Code](https://code.visualstudio.com/) - code editor
-  - [PyCharm Professional](https://www.jetbrains.com/pycharm/) - IDE for Python projects
   - [Xcode](https://developer.apple.com/xcode/) - IDE for Swift Projects
   - [iA Writer](https://ia.net/writer) - markdown/docs editor
   - [iTerm2](https://iterm2.com/) - terminal
     - [Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts)
-    - Custom [AWS-themed](platforms/macos/apps/iTerm/AWS.itermcolors) terminal colors
   - [Docker Desktop](https://www.docker.com/products/docker-desktop) - local container environment
   - [Postman](https://www.getpostman.com/) - REST API client
   - [Homebrew](https://brew.sh/) - macOS package manager

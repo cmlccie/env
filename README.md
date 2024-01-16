@@ -1,10 +1,11 @@
 # Personal macOS and Linux Development Environments
 
-*Shell configurations* and *scripts* to setup my development environments
+_Shell configurations_ and _scripts_ to setup my development environments
 
 ## Personal Toolchains
 
 - **macOS**
+
   - [VS Code](https://code.visualstudio.com/) - code editor
   - [PyCharm Professional](https://www.jetbrains.com/pycharm/) - IDE for Python projects
   - [Xcode](https://developer.apple.com/xcode/) - IDE for Swift Projects
@@ -17,12 +18,18 @@
   - [Homebrew](https://brew.sh/) - macOS package manager
 
 - **Linux** - Ubuntu, Raspbian, Debian-based
+
   - [VS Code](https://code.visualstudio.com/) - code editor
 
 - **Shells**
+
   - [zsh](http://zsh.sourceforge.net/) - primary shell
     - [powerlevel10k](https://github.com/romkatv/powerlevel10k) - theme
   - [bash](https://www.gnu.org/software/bash/) - shell scripts
+
+- **Utilities**
+
+  - [gnupg](https://www.gnupg.org/) - OpenPGP
 
 - **Python**
   - [pyenv](https://github.com/pyenv/pyenv) - python version management
@@ -35,7 +42,7 @@
 
 ## Principles and Methods
 
-- Use *this* git repository to keep common shell configurations and package lists synchronized between development environments.
+- Use _this_ git repository to keep common shell configurations and package lists synchronized between development environments.
   - Configurations and scripts should be portable!
     - Don't use absolute path references.
     - Don't assume that a tool is installed; check if it is.
@@ -43,5 +50,5 @@
 - Keep system-level package installations to a minimum.
 - Create project-specific virtual environments for every project. Use `poetry` to manage project dependencies and the associated environment.
 - If project artifacts will be deployed in a Docker container, do the project development using the container environment.
-- Remember the *wisdom* in [PEP20](https://www.python.org/dev/peps/pep-0020/) (even when coding in another language).
-- *Almost always* follow [PEP8](https://www.python.org/dev/peps/pep-0008/).
+- Remember the _wisdom_ in [PEP20](https://www.python.org/dev/peps/pep-0020/) (even when coding in another language).
+- _Almost always_ follow [PEP8](https://www.python.org/dev/peps/pep-0008/).

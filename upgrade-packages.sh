@@ -71,6 +71,9 @@ if [[ ${poetry} ]] || [[ ${all} ]]; then
             curl -sSL https://install.python-poetry.org | python3 -
         fi
 
+        printf "\nAdding poetry plugins\n"
+        poetry self add poetry-plugin-export
+
         printf "\nEnabling poetry tab completion\n"
         # Bash (Homebrew)
         poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"

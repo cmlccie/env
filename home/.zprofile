@@ -1,8 +1,12 @@
+#!/usr/bin/env zsh
 # echo "Loading: .zprofile"
 
 if [[ -o login ]]; then
     # Login Shell
     # echo "Login Shell"
+
+    # Local paths
+    [[ -e ${HOME}/.paths.sh ]] && source "${HOME}/.paths.sh"
 
     ### Shell Configuration
     setopt extendedglob

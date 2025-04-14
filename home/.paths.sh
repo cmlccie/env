@@ -63,3 +63,6 @@ if [[ -d "${HOME}/env/tools/instantclient" ]]; then
     export TNS_ADMIN="${HOME}/env/tools/instantclient"
     export PATH="${PATH}:${HOME}/env/tools/instantclient"
 fi
+
+# LM Studio CLI (lms)
+[[ -d "${HOME}/.lmstudio/bin" ]] && export PATH="$PATH:${HOME}/.lmstudio/bin"

@@ -123,8 +123,7 @@ for i in "${@}"; do
     case ${i} in
         brew) brew=true; all=;;
         poetry) poetry=true; all=;;
-        sys2) sys2=true; all=;;
-        sys3) sys3=true; all=;;
+        python) python=true; all=;;
         conda) conda=true; all=;;
         node) node=true; all=;;
         rust) rust=true; all=;;
@@ -134,8 +133,7 @@ done
 # Execute updates based on arguments
 [[ ${brew} ]] || [[ ${all} ]] && update_brew
 [[ ${poetry} ]] || [[ ${all} ]] && update_poetry
-[[ ${sys2} ]] || [[ ${all} ]] && update_python_packages pip2 python/sys2-requirements.txt
-[[ ${sys3} ]] || [[ ${all} ]] && update_python_packages pip3 python/sys3-requirements.txt
+[[ ${python} ]] || [[ ${all} ]] && update_python_packages pip3 python/sys3-requirements.txt
 [[ ${conda} ]] || [[ ${all} ]] && update_conda
 [[ ${node} ]] || [[ ${all} ]] && update_node
 [[ ${rust} ]] || [[ ${all} ]] && update_rust

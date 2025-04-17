@@ -132,10 +132,10 @@ for i in "${@}"; do
 done
 
 # Execute updates based on arguments
-if [[ ${brew} ]] || [[ ${all} ]]; then update_brew; fi
-if [[ ${poetry} ]] || [[ ${all} ]]; then update_poetry; fi
-if [[ ${sys2} ]] || [[ ${all} ]]; then update_python_packages pip2 python/sys2-requirements.txt; fi
-if [[ ${sys3} ]] || [[ ${all} ]]; then update_python_packages pip3 python/sys3-requirements.txt; fi
-if [[ ${conda} ]] || [[ ${all} ]]; then update_conda; fi
-if [[ ${node} ]] || [[ ${all} ]]; then update_node; fi
-if [[ ${rust} ]] || [[ ${all} ]]; then update_rust; fi
+[[ ${brew} ]] || [[ ${all} ]] && update_brew
+[[ ${poetry} ]] || [[ ${all} ]] && update_poetry
+[[ ${sys2} ]] || [[ ${all} ]] && update_python_packages pip2 python/sys2-requirements.txt
+[[ ${sys3} ]] || [[ ${all} ]] && update_python_packages pip3 python/sys3-requirements.txt
+[[ ${conda} ]] || [[ ${all} ]] && update_conda
+[[ ${node} ]] || [[ ${all} ]] && update_node
+[[ ${rust} ]] || [[ ${all} ]] && update_rust

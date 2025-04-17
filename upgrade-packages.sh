@@ -1,159 +1,136 @@
 #!/usr/bin/env bash
 # Upgrade system packages
 
+set -e  # Exit immediately if a command exits with a non-zero status
 
 cd "$(dirname "$0")" || exit
 
+# Functions for package updates
+update_brew() {
+    if command -v brew 1>/dev/null 2>&1; then
+        printf "\n==> Upgrading Homebrew Packages\n"
+        brew update
+        brew doctor
+        brew upgrade
+        brew cleanup
+    else
+        printf "\nError: Homebrew is not installed\n"
+    fi
+}
 
-# Script arguments
-all=true
-for i in "${@}"; do
-    case ${i} in
-        brew)
-        brew=true
-        all=
-        ;;
-
-        poetry)
-        poetry=true
-        all=
-        ;;
-
-        sys2)
-        sys2=true
-        all=
-        ;;
-
-        sys3)
-        sys3=true
-        all=
-        ;;
-
-        conda)
-        conda=true
-        all=
-        ;;
-
-        node)
-        node=true
-        all=
-        ;;
-
-        rust)
-        rust=true
-        all=
-        ;;
-    esac
-done
-
-
-if command -v brew 1>/dev/null 2>&1 && { [[ ${brew} ]] || [[ ${all} ]]; }; then
-    printf "\n==> Upgrading Homebrew Packages\n"
-    brew update
-    brew doctor
-    brew upgrade
-    brew cleanup
-fi
-
-
-if [[ ${poetry} ]] || [[ ${all} ]]; then
+update_poetry() {
     if command -v poetry 1>/dev/null 2>&1; then
         printf "\n==> Upgrading Python Poetry\n"
-        poetry self update
-
-        update_status=$?
-        if [[ $update_status -ne 0 ]]; then
-            printf "\nUpdate failed. Removing existing poetry installalation.\n"
+        poetry self update || {
+            printf "\nUpdate failed. Removing existing poetry installation.\n"
             [[ -d "$HOME/Library/Application Support/pypoetry" ]] && rm -rf "$HOME/Library/Application Support/pypoetry"
             [[ -d "$HOME/.local/share/pypoetry" ]] && rm -rf "$HOME/.local/share/pypoetry"
 
             printf "\nReinstalling poetry...\n"
             curl -sSL https://install.python-poetry.org | python3 -
-        fi
+        }
 
         printf "\nAdding poetry plugins\n"
         poetry self add poetry-plugin-export
 
         printf "\nEnabling poetry tab completion\n"
-        # Bash (Homebrew)
         poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"
-        # Oh-My-Zsh
         mkdir -pv "$HOME/.oh-my-zsh/custom/plugins/poetry"
         poetry completions zsh > "$HOME/.oh-my-zsh/custom/plugins/poetry/_poetry"
+    else
+        printf "\nError: Poetry is not installed\n"
     fi
-fi
+}
 
+update_python_packages() {
+    local python_version=$1
+    local requirements_file=$2
 
-if { [[ ${sys2} ]] || [[ ${all} ]]; } && command -v pip2 --version 1>/dev/null 2>&1; then
-    printf "\n==> Performing a clean install of the python2 system packages\n"
+    if command -v "$python_version" --version 1>/dev/null 2>&1; then
+        printf "\n==> Performing a clean install of the $python_version system packages\n"
 
-    sys2_packages=$(mktemp -t sys2_packages)
+        local temp_packages
+        temp_packages=$(mktemp -t "${python_version}_packages")
 
-    printf "\nUninstalling existing Python2 (pip2) System Packages"
-    pip2 freeze > "${sys2_packages}"
-    pip2 uninstall -y -r "${sys2_packages}"
+        printf "\nUninstalling existing $python_version System Packages\n"
+        "$python_version" freeze > "$temp_packages"
+        "$python_version" uninstall -y -r "$temp_packages"
 
-    printf "\nInstalling pip2 setup tools"
-    pip2 install --upgrade pip setuptools wheel
+        printf "\nInstalling $python_version setup tools\n"
+        "$python_version" install --upgrade pip setuptools wheel
 
-    if [[ -f "python/sys2-requirements.txt" ]]; then
-        printf "\nInstalling python2 (pip2) system packages from python/sys2-requirements.txt"
-        sort -uo python/sys2-requirements.txt python/sys2-requirements.txt
-        pip2 install --upgrade -r python/sys2-requirements.txt
+        if [[ -f "$requirements_file" ]]; then
+            printf "\nInstalling $python_version system packages from $requirements_file\n"
+            sort -uo "$requirements_file" "$requirements_file"
+            "$python_version" install --upgrade -r "$requirements_file"
+        fi
+
+        rm "$temp_packages"
+    else
+        printf "\nError: $python_version is not installed\n"
     fi
+}
 
-    rm "${sys2_packages}"
-fi
-
-
-if { [[ ${sys3} ]] || [[ ${all} ]]; } && command -v pip3 --version 1>/dev/null 2>&1; then
-    printf "\n==> Performing a clean install of the python3 system packages\n"
-
-    sys3_packages=$(mktemp -t sys3_packages)
-
-    printf "\nUninstalling existing Python3 (pip3) System Packages"
-    pip3 freeze > "${sys3_packages}"
-    pip3 uninstall -y -r "${sys3_packages}"
-
-    printf "\nInstalling pip3 setup tools"
-    pip3 install --upgrade pip setuptools wheel
-
-    if [[ -f "python/sys3-requirements.txt" ]]; then
-        printf "\nInstalling python3 system packages from python/sys3-requirements.txt"
-        sort -uo python/sys3-requirements.txt python/sys3-requirements.txt
-        pip3 install --upgrade -r python/sys3-requirements.txt
+update_conda() {
+    if command -v conda 1>/dev/null 2>&1; then
+        printf "\n==> Updating packages in the Conda base environment\n"
+        conda update --all -y
+    else
+        printf "\nError: Conda is not installed\n"
     fi
+}
 
-    rm "${sys3_packages}"
-fi
+update_node() {
+    if command -v npm 1>/dev/null 2>&1; then
+        if [[ -d ${NVM_DIR} ]]; then
+            [[ -s ${NVM_DIR}/nvm.sh ]] && source "${NVM_DIR}/nvm.sh"
+            nvm use default
+            nvm install 'lts/*' --reinstall-packages-from=current
+            nvm alias default node
 
+            printf "\n==> Installing the latest npm\n"
+            nvm install-latest-npm
 
-if { [[ ${conda} ]] || [[ ${all} ]]; } && command -v conda 1>/dev/null 2>&1; then
-    printf "\n==> Updating packages in the Conda base environment\n"
-    conda update -n base --all -y
-fi
+            printf "\n==> Installing the latest yarn package manager\n"
+            corepack enable
+            corepack prepare yarn@stable --activate
+        fi
 
-
-if { [[ ${node} ]] || [[ ${all} ]]; } && command -v npm 1>/dev/null 2>&1; then
-    if [[ -d ${NVM_DIR} ]]; then
-        [[ -s ${NVM_DIR}/nvm.sh ]] && source "${NVM_DIR}/nvm.sh"
-        nvm use default
-        nvm install 'lts/*' --reinstall-packages-from=current
-        nvm alias default node
-
-        printf "\n==> Installing the latest npm\n"
-        nvm install-latest-npm
-
-        printf "\n==> Installing the latest yarn package manager\n"
-        corepack enable
-        corepack prepare yarn@stable --activate
+        printf "\n==> Updating packages in the Node global environment\n"
+        npm update --location=global --no-fund
+    else
+        printf "\nError: Node.js is not installed\n"
     fi
+}
 
-    printf "\n==> Updating packages in the Node global environment\n"
-    npm update --location=global --no-fund
-fi
+update_rust() {
+    if command -v rustup 1>/dev/null 2>&1; then
+        printf "\n==> Updating Rust\n"
+        rustup update
+    else
+        printf "\nError: Rust is not installed\n"
+    fi
+}
 
-if { [[ ${rust} ]] || [[ ${all} ]]; } && command -v rustup 1>/dev/null 2>&1; then
-    printf "\n==> Updating Rust\n"
-    rustup update
-fi
+# Script arguments
+all=true
+for i in "${@}"; do
+    case ${i} in
+        brew) brew=true; all=;;
+        poetry) poetry=true; all=;;
+        sys2) sys2=true; all=;;
+        sys3) sys3=true; all=;;
+        conda) conda=true; all=;;
+        node) node=true; all=;;
+        rust) rust=true; all=;;
+    esac
+done
+
+# Execute updates based on arguments
+if [[ ${brew} ]] || [[ ${all} ]]; then update_brew; fi
+if [[ ${poetry} ]] || [[ ${all} ]]; then update_poetry; fi
+if [[ ${sys2} ]] || [[ ${all} ]]; then update_python_packages pip2 python/sys2-requirements.txt; fi
+if [[ ${sys3} ]] || [[ ${all} ]]; then update_python_packages pip3 python/sys3-requirements.txt; fi
+if [[ ${conda} ]] || [[ ${all} ]]; then update_conda; fi
+if [[ ${node} ]] || [[ ${all} ]]; then update_node; fi
+if [[ ${rust} ]] || [[ ${all} ]]; then update_rust; fi

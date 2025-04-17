@@ -5,9 +5,14 @@ set -e  # Exit immediately if a command exits with a non-zero status
 
 cd "$(dirname "$0")" || exit
 
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 # Functions for package updates
 update_brew() {
-    if command -v brew 1>/dev/null 2>&1; then
+    if command_exists brew; then
         printf "\n==> Upgrading Homebrew Packages\n"
         brew update
         brew doctor
@@ -19,7 +24,7 @@ update_brew() {
 }
 
 update_poetry() {
-    if command -v poetry 1>/dev/null 2>&1; then
+    if command_exists poetry; then
         printf "\n==> Upgrading Python Poetry\n"
         poetry self update || {
             printf "\nUpdate failed. Removing existing poetry installation.\n"
@@ -46,7 +51,7 @@ update_python_packages() {
     local python_version=$1
     local requirements_file=$2
 
-    if command -v "$python_version" --version 1>/dev/null 2>&1; then
+    if command_exists "$python_version"; then
         printf "\n==> Performing a clean install of the $python_version system packages\n"
 
         local temp_packages
@@ -72,7 +77,7 @@ update_python_packages() {
 }
 
 update_conda() {
-    if command -v conda 1>/dev/null 2>&1; then
+    if command_exists conda; then
         printf "\n==> Updating packages in the Conda base environment\n"
         conda update --all -y
     else
@@ -81,7 +86,7 @@ update_conda() {
 }
 
 update_node() {
-    if command -v npm 1>/dev/null 2>&1; then
+    if command_exists npm; then
         if [[ -d ${NVM_DIR} ]]; then
             [[ -s ${NVM_DIR}/nvm.sh ]] && source "${NVM_DIR}/nvm.sh"
             nvm use default
@@ -104,7 +109,7 @@ update_node() {
 }
 
 update_rust() {
-    if command -v rustup 1>/dev/null 2>&1; then
+    if command_exists rustup; then
         printf "\n==> Updating Rust\n"
         rustup update
     else

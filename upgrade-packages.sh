@@ -48,31 +48,11 @@ update_poetry() {
 }
 
 update_python_packages() {
-    local python_version=$1
-    local requirements_file=$2
-
-    if command_exists "$python_version"; then
-        printf "\n==> Performing a clean install of the $python_version system packages\n"
-
-        local temp_packages
-        temp_packages=$(mktemp -t "${python_version}_packages")
-
-        printf "\nUninstalling existing $python_version System Packages\n"
-        "$python_version" freeze > "$temp_packages"
-        "$python_version" uninstall -y -r "$temp_packages"
-
-        printf "\nInstalling $python_version setup tools\n"
-        "$python_version" install --upgrade pip setuptools wheel
-
-        if [[ -f "$requirements_file" ]]; then
-            printf "\nInstalling $python_version system packages from $requirements_file\n"
-            sort -uo "$requirements_file" "$requirements_file"
-            "$python_version" install --upgrade -r "$requirements_file"
-        fi
-
-        rm "$temp_packages"
+    if command_exists poetry; then
+        printf "\n==> Updating Python system packages using Poetry\n"
+        poetry update --directory python/system-packages
     else
-        printf "\nError: $python_version is not installed\n"
+        printf "\nError: Poetry is not installed\n"
     fi
 }
 
@@ -133,7 +113,7 @@ done
 # Execute updates based on arguments
 [[ ${brew} ]] || [[ ${all} ]] && update_brew
 [[ ${poetry} ]] || [[ ${all} ]] && update_poetry
-[[ ${python} ]] || [[ ${all} ]] && update_python_packages pip3 python/sys3-requirements.txt
+[[ ${python} ]] || [[ ${all} ]] && update_python_packages
 [[ ${conda} ]] || [[ ${all} ]] && update_conda
 [[ ${node} ]] || [[ ${all} ]] && update_node
 [[ ${rust} ]] || [[ ${all} ]] && update_rust

@@ -5,63 +5,87 @@ set -e  # Exit immediately if a command exits with a non-zero status
 
 cd "$(dirname "$0")" || exit
 
-# Function to check if a command exists
+
+# --------------------------------------------------------------------------------------
+# Helper Functions
+# --------------------------------------------------------------------------------------
+
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Functions for package updates
+# -----------------------------------------------------------------------------
+# Output Formatting Functions
+# -----------------------------------------------------------------------------
+
+task() {
+    printf "\033[34m==> %s\033[0m\n" "$1"  # Blue for new tasks
+}
+
+status() {
+    printf "\033[37m    %s\033[0m\n" "$1"  # Grey for status updates
+}
+
+error() {
+    printf "\033[31mError: %s\033[0m\n" "$1"  # Red for errors
+}
+
+
+# --------------------------------------------------------------------------------------
+# Package Update Functions
+# --------------------------------------------------------------------------------------
+
 update_brew() {
     if command_exists brew; then
-        printf "\n==> Upgrading Homebrew Packages\n"
+        task "Upgrading Homebrew Packages"
         brew update
         brew doctor
         brew upgrade
         brew cleanup
     else
-        printf "\nError: Homebrew is not installed\n"
+        error "Homebrew is not installed"
     fi
 }
 
 update_poetry() {
     if command_exists poetry; then
-        printf "\n==> Upgrading Python Poetry\n"
+        task "Upgrading Python Poetry"
         poetry self update || {
-            printf "\nUpdate failed. Removing existing poetry installation.\n"
+            error "Update failed. Removing existing poetry installation."
             [[ -d "$HOME/Library/Application Support/pypoetry" ]] && rm -rf "$HOME/Library/Application Support/pypoetry"
             [[ -d "$HOME/.local/share/pypoetry" ]] && rm -rf "$HOME/.local/share/pypoetry"
 
-            printf "\nReinstalling poetry...\n"
+            status "Reinstalling poetry..."
             curl -sSL https://install.python-poetry.org | python3 -
         }
 
-        printf "\nAdding poetry plugins\n"
+        status "Adding poetry plugins"
         poetry self add poetry-plugin-export
 
-        printf "\nEnabling poetry tab completion\n"
+        status "Enabling poetry tab completion"
         poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"
         mkdir -pv "$HOME/.oh-my-zsh/custom/plugins/poetry"
         poetry completions zsh > "$HOME/.oh-my-zsh/custom/plugins/poetry/_poetry"
     else
-        printf "\nError: Poetry is not installed\n"
+        error "Poetry is not installed"
     fi
 }
 
 update_python_packages() {
     if command_exists poetry; then
-        printf "\n==> Updating Python system packages using Poetry\n"
+        task "Updating Python system packages using Poetry"
         poetry update --directory python/system-packages
     else
-        printf "\nError: Poetry is not installed\n"
+        error "Poetry is not installed"
     fi
 }
 
 update_conda() {
     if command_exists conda; then
-        printf "\n==> Updating packages in the Conda base environment\n"
+        task "Updating packages in the Conda base environment"
         conda update --all -y
     else
-        printf "\nError: Conda is not installed\n"
+        error "Conda is not installed"
     fi
 }
 
@@ -73,29 +97,34 @@ update_node() {
             nvm install 'lts/*' --reinstall-packages-from=current
             nvm alias default node
 
-            printf "\n==> Installing the latest npm\n"
+            status "Installing the latest npm"
             nvm install-latest-npm
 
-            printf "\n==> Installing the latest yarn package manager\n"
+            status "Installing the latest yarn package manager"
             corepack enable
             corepack prepare yarn@stable --activate
         fi
 
-        printf "\n==> Updating packages in the Node global environment\n"
+        task "Updating packages in the Node global environment"
         npm update --location=global --no-fund
     else
-        printf "\nError: Node.js is not installed\n"
+        error "Node.js is not installed"
     fi
 }
 
 update_rust() {
     if command_exists rustup; then
-        printf "\n==> Updating Rust\n"
+        task "Updating Rust"
         rustup update
     else
-        printf "\nError: Rust is not installed\n"
+        error "Rust is not installed"
     fi
 }
+
+
+# --------------------------------------------------------------------------------------
+# Main Script Execution
+# --------------------------------------------------------------------------------------
 
 # Script arguments
 all=true

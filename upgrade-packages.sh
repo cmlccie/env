@@ -23,11 +23,11 @@ task() {
 }
 
 status() {
-    printf "\033[37m    %s\033[0m\n" "$1"  # Grey for status updates
+    printf "\033[37m==> %s\033[0m\n" "$1"  # Grey for status updates
 }
 
 error() {
-    printf "\033[31mError: %s\033[0m\n" "$1"  # Red for errors
+    printf "\033[31m==> %s\033[0m\n" "$1"  # Red for errors
 }
 
 
@@ -39,7 +39,7 @@ update_brew() {
     if command_exists brew; then
         task "Upgrading Homebrew Packages"
         brew update
-        brew doctor
+        brew doctor || status "Brew doctor encountered issues, continuing..."
         brew upgrade
         brew cleanup
     else

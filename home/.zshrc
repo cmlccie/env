@@ -45,7 +45,7 @@ if [[ -o interactive ]]; then
     command_exists pyenv && eval "$(pyenv init -)" > /dev/null
 
     # conda
-    command_exists conda && source "$(conda info --root)/etc/profile.d/conda.sh"
+    command_exists conda && source "$(conda info --base)/etc/profile.d/conda.sh"
 
     # Node Version Manager (NVM)
     [[ -e "${HOME}/.nvm" ]] && export NVM_DIR="${HOME}/.nvm"

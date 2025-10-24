@@ -31,6 +31,6 @@ if [[ -o login ]]; then
     export POETRY_VIRTUALENVS_IN_PROJECT="true"
 
     # conda
-    command -v conda 1>/dev/null 2>&1 && source $(conda info --root)/etc/profile.d/conda.sh
+    command -v conda 1>/dev/null 2>&1 && source $(conda info --base)/etc/profile.d/conda.sh
 
 fi

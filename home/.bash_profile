@@ -38,7 +38,7 @@ if shopt -q login_shell; then
 
     # conda
     if command -v conda 1>/dev/null 2>&1; then
-        source "$(conda info --root)/etc/profile.d/conda.sh"
+        source "$(conda info --base)/etc/profile.d/conda.sh"
     fi
 
 fi

@@ -11,6 +11,7 @@ if [[ -o interactive ]]; then
     # Interactive Shell
 
     ### Shell Configuration
+    export DISABLE_CORRECTION="true"
     export TERM="xterm-256color"
     export LSCOLORS="exfxcxdxbxegedabagacad"
 
@@ -35,6 +36,10 @@ if [[ -o interactive ]]; then
 
 
     ### Tool Configuration
+    # ZSH
+    unsetopt correct
+    unsetopt correct_all
+
     # 1Password
     command_exists op && eval "$(op completion zsh)"; compdef _op op
 

@@ -63,6 +63,9 @@ if [[ -o interactive ]]; then
     # iTerm
     [[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
+    # VS Code
+    [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
 
     ### Aliases
     [[ -e ${HOME}/.aliases.sh ]] && source "${HOME}/.aliases.sh"

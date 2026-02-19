@@ -66,3 +66,6 @@ fi
 
 # LM Studio CLI (lms)
 [[ -d "${HOME}/.lmstudio/bin" ]] && export PATH="$PATH:${HOME}/.lmstudio/bin"
+
+# Open Code
+[[ -d "${HOME}/.opencode/bin" ]] && export PATH="${HOME}/.opencode/bin:$PATH"

@@ -29,7 +29,7 @@ if [[ -o interactive ]]; then
         ENABLE_CORRECTION="true"
         COMPLETION_WAITING_DOTS="true"
 
-        plugins=(aws chucknorris docker gitfast z zsh-nvm)
+        plugins=(aws docker gitfast z zsh-nvm)
 
         source "${ZSH}/oh-my-zsh.sh"
     fi

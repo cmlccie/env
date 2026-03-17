@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 # Script functions
-command_exists() {
-    command -v 1>/dev/null 2>&1
-}
+function command_exists { command -v "$1" 1>/dev/null 2>&1; }
 
 
 # Visual Studio Code (code)

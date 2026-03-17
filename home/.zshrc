@@ -3,7 +3,7 @@
 
 
 # Script functions
-function command_exists { command -v $1 1>/dev/null 2>&1; }
+function command_exists { command -v "$1" 1>/dev/null 2>&1; }
 
 
 # Configurations for interactive vs. non-interactive shell sessions
@@ -41,7 +41,7 @@ if [[ -o interactive ]]; then
     unsetopt correct_all
 
     # 1Password
-    command_exists op && eval "$(op completion zsh)"; compdef _op op
+    command_exists op && eval "$(op completion zsh)"
 
     # direnv
     command_exists direnv && eval "$(direnv hook zsh)"
@@ -81,6 +81,3 @@ else
     command_exists pyenv && eval "$(pyenv init --path)" > /dev/null
 
 fi
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terragrunt terragrunt

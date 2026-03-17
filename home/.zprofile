@@ -15,9 +15,6 @@ if [[ -o login ]]; then
     export LC_ALL="en_US.UTF-8"
     export LANG="en_US.UTF-8"
 
-    # Local paths
-    [[ -e ${HOME}/.paths.sh ]] && source "${HOME}/.paths.sh"
-
     # nvm
     [[ -d "$HOME/.nvm" ]] && export NVM_DIR="$HOME/.nvm"
 
@@ -31,6 +28,6 @@ if [[ -o login ]]; then
     export POETRY_VIRTUALENVS_IN_PROJECT="true"
 
     # conda
-    command -v conda 1>/dev/null 2>&1 && source $(conda info --base)/etc/profile.d/conda.sh
+    command -v conda 1>/dev/null 2>&1 && source "$(conda info --base)/etc/profile.d/conda.sh"
 
 fi

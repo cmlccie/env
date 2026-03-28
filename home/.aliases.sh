@@ -5,6 +5,6 @@ alias k='kubectl'
 
 # Terragrunt
 alias tg='terragrunt'
-alias tgi='terragrunt init --non-interactive'
-alias tgp='terragrunt plan --non-interactive'
-alias tga='terragrunt apply --non-interactive'
+alias tgi='terragrunt init --non-interactive --provider-cache '
+alias tgp='terragrunt plan --non-interactive --provider-cache '
+alias tga='terragrunt apply --non-interactive --provider-cache '

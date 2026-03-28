@@ -57,6 +57,14 @@ if [[ -o interactive ]]; then
     [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
     [ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 
+    # Docker
+    if command_exists docker; then
+        if [[ ! -f ${HOME}/.oh-my-zsh/completions/_docker ]]; then
+            mkdir -p ${HOME}/.oh-my-zsh/completions
+            docker completion zsh > ${HOME}/.oh-my-zsh/completions/_docker
+        fi
+    fi
+
     # Kubernetes (kubectl)
     command_exists kubectl && source <(kubectl completion zsh)
 

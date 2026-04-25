@@ -32,6 +32,10 @@ if [[ -o interactive ]]; then
         plugins=(aws docker gitfast z zsh-nvm)
 
         source "${ZSH}/oh-my-zsh.sh"
+
+        # Disable Oh My Zsh url-quote-magic behavior
+        zle -D self-insert 2>/dev/null
+        zle -A .self-insert self-insert 2>/dev/null
     fi
 
 

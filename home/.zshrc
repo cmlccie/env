@@ -72,6 +72,12 @@ if [[ -o interactive ]]; then
     # Kubernetes (kubectl)
     command_exists kubectl && source <(kubectl completion zsh)
 
+    # Cilium
+    command_exists cilium && source <(cilium completion zsh)
+
+    # Tetragon
+    command_exists tetra && source <(tetra completion zsh)
+
     # iTerm
     [[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 

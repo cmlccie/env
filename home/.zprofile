@@ -30,4 +30,7 @@ if [[ -o login ]]; then
     # conda
     command -v conda 1>/dev/null 2>&1 && source "$(conda info --base)/etc/profile.d/conda.sh"
 
+    # Isovalent
+    export CILIUM_NAMESPACE="isovalent"
+
 fi

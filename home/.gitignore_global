@@ -9,3 +9,5 @@
 DerivedData/
 venv/
 scratch/
+
+.claude/settings.local.json

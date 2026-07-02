@@ -40,7 +40,7 @@ update_brew() {
         task "Upgrading Homebrew Packages"
         brew update
         brew doctor || status "Brew doctor encountered issues, continuing..."
-        brew upgrade
+        brew upgrade --yes
         brew cleanup
     else
         error "Homebrew is not installed"

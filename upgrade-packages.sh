@@ -121,6 +121,15 @@ update_rust() {
     fi
 }
 
+update_completions() {
+    # Generated here, never at shell startup. ~/.oh-my-zsh/completions is already on fpath.
+    task "Regenerating shell completions"
+    mkdir -p "$HOME/.oh-my-zsh/completions"
+    for t in docker kubectl cilium tetra op; do
+        command_exists "$t" && "$t" completion zsh > "$HOME/.oh-my-zsh/completions/_$t"
+    done
+}
+
 
 # --------------------------------------------------------------------------------------
 # Main Script Execution
@@ -136,6 +145,7 @@ for i in "${@}"; do
         conda) conda=true; all=;;
         node) node=true; all=;;
         rust) rust=true; all=;;
+        completions) completions=true; all=;;
     esac
 done
 
@@ -146,3 +156,4 @@ done
 [[ ${conda} ]] || [[ ${all} ]] && update_conda
 [[ ${node} ]] || [[ ${all} ]] && update_node
 [[ ${rust} ]] || [[ ${all} ]] && update_rust
+[[ ${completions} ]] || [[ ${all} ]] && update_completions

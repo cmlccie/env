@@ -1,6 +1,0 @@
-default_context:
-    full_name: Chris Lunsford
-    email: cm@lunsford.io
-    github_username: cmlccie
-abbreviations:
-    reference: ~/dev/reference

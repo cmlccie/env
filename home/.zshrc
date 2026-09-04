@@ -1,101 +1,41 @@
-#!/usr/bin/env zsh
-# echo "Loading: .zshrc"
+# Interactive zsh only -- zsh does not source this file otherwise. No guard needed.
 
+# powerlevel10k instant prompt. Keep at the very top; nothing above may write to
+# stdout/stderr or read stdin.
+[[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]] && source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
-# Script functions
-function command_exists { command -v "$1" 1>/dev/null 2>&1; }
+# Normally already loaded by .zshenv; sentinel-guarded, so this is one test in that case.
+# Keeps .zshrc self-sufficient if .zshenv is ever missing.
+. "${XDG_CONFIG_HOME:-$HOME/.config}/shell/env.sh"
 
+setopt extendedglob
 
-# Configurations for interactive vs. non-interactive shell sessions
-if [[ -o interactive ]]; then
-    # Interactive Shell
+# oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+DEFAULT_USER="$USER"
+DISABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+VIRTUAL_ENV_DISABLE_PROMPT="1"
+NVM_LAZY_LOAD="true"
+plugins=(aws docker gitfast z zsh-nvm)
+source_if "$ZSH/oh-my-zsh.sh"
 
-    ### Shell Configuration
-    export DISABLE_CORRECTION="true"
-    export TERM="xterm-256color"
-    export LSCOLORS="exfxcxdxbxegedabagacad"
+# Disable oh-my-zsh url-quote-magic
+zle -D self-insert 2>/dev/null
+zle -A .self-insert self-insert 2>/dev/null
 
-    if [[ -e ${HOME}/.oh-my-zsh ]]; then
-        export ZSH="${HOME}/.oh-my-zsh"
+# Aliases and shared interactive configuration
+. "${XDG_CONFIG_HOME:-$HOME/.config}/shell/interactive.sh"
 
-        DEFAULT_USER="$(whoami)"
+# Tool hooks -- interactive only; env.sh carries the env vars these tools read.
+# Completions are generated to ~/.oh-my-zsh/completions by `upgrade-packages.sh completions`,
+# which is already on fpath -- never regenerate them at shell startup.
+have direnv && eval "$(direnv hook zsh)"
 
-        VIRTUAL_ENV_DISABLE_PROMPT="1"
+# Shell integrations
+[[ -t 1 ]] && source_if "$HOME/.iterm2_shell_integration.zsh"
+[[ "$TERM_PROGRAM" == "vscode" ]] && source_if "$(code --locate-shell-integration-path zsh)"
 
-        ZSH_THEME="powerlevel10k/powerlevel10k"
-        # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-        [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
-        ENABLE_CORRECTION="true"
-        COMPLETION_WAITING_DOTS="true"
-
-        plugins=(aws docker gitfast z zsh-nvm)
-
-        source "${ZSH}/oh-my-zsh.sh"
-
-        # Disable Oh My Zsh url-quote-magic behavior
-        zle -D self-insert 2>/dev/null
-        zle -A .self-insert self-insert 2>/dev/null
-    fi
-
-
-    ### Tool Configuration
-    # ZSH
-    unsetopt correct
-    unsetopt correct_all
-
-    # 1Password
-    command_exists op && eval "$(op completion zsh)"
-
-    # direnv
-    command_exists direnv && eval "$(direnv hook zsh)"
-
-    # pyenv
-    command_exists pyenv && eval "$(pyenv init -)" > /dev/null
-
-    # conda
-    command_exists conda && source "$(conda info --base)/etc/profile.d/conda.sh"
-
-    # Node Version Manager (NVM)
-    [[ -e "${HOME}/.nvm" ]] && export NVM_DIR="${HOME}/.nvm"
-    [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
-    [ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
-
-    # Docker
-    if command_exists docker; then
-        if [[ ! -f ${HOME}/.oh-my-zsh/completions/_docker ]]; then
-            mkdir -p ${HOME}/.oh-my-zsh/completions
-            docker completion zsh > ${HOME}/.oh-my-zsh/completions/_docker
-        fi
-    fi
-
-    # Kubernetes (kubectl)
-    command_exists kubectl && source <(kubectl completion zsh)
-
-    # Cilium
-    command_exists cilium && source <(cilium completion zsh)
-
-    # Tetragon
-    command_exists tetra && source <(tetra completion zsh)
-
-    # iTerm
-    [[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
-
-    # VS Code
-    [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
-
-
-    ### Aliases
-    [[ -e ${HOME}/.aliases.sh ]] && source "${HOME}/.aliases.sh"
-
-else
-    # Non-Interactive Shell
-    echo "Non-Interactive Shell"
-
-    ## direnv
-    command_exists direnv && eval "$(direnv export zsh)"
-
-    # pyenv
-    command_exists pyenv && eval "$(pyenv init --path)" > /dev/null
-
-fi
+# powerlevel10k configuration -- p10k requires this LAST, after oh-my-zsh.sh
+source_if "$HOME/.p10k.zsh"

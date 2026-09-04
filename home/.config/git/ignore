@@ -1,0 +1,25 @@
+# Personal Conventions
+scratch/
+
+# macOS
+.DS_Store
+
+# Environment Variable Files
+.env
+.envrc
+
+# Python
+venv/
+.venv/
+.ipynb_checkpoints/
+
+# VS Code
+*.code-workspace
+
+# Xcode
+DerivedData/
+
+# Claude Code
+**/.claude/settings.local.json
+**/.claude/worktrees/
+**/.claude/.cc-writes/

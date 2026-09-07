@@ -18,11 +18,18 @@
     "allowUnsandboxedCommands": false,
     "network": {
       "allowedDomains": [],
-      "deniedDomains": ["169.254.169.254", "metadata.google.internal"],
+      "deniedDomains": [
+        "169.254.169.254",
+        "metadata.google.internal"
+      ],
       "allowLocalBinding": true
     },
     "filesystem": {
-      "denyRead": ["~/.ssh", "~/.aws", "~/.gnupg"]
+      "denyRead": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg"
+      ]
     },
     "credentials": {
       "files": [
@@ -62,11 +69,14 @@
         }
       ]
     },
-    "excludedCommands": ["docker *"]
+    "excludedCommands": [
+      "docker *"
+    ]
   },
   "effortLevel": "high",
   "advisorModel": "fable",
+  "tui": "fullscreen",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "tui": "fullscreen"
+  "model": "opus[1m]"
 }

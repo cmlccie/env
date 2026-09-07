@@ -1,0 +1,14 @@
+# Python CLI tools, installed into isolated environments by `uv tool install`.
+# Binaries land in ~/.local/bin, which paths.sh already prepends.
+#
+# One tool per line. Anything after the name is passed through to
+# `uv tool install`, so extras and plugins live here too.
+#
+# Libraries do NOT belong here -- every project gets its own uv-managed venv.
+
+ipython
+mypy
+ruff
+
+# Retained for Python projects not yet migrated from Poetry to uv.
+poetry --with poetry-plugin-export

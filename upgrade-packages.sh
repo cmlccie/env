@@ -47,36 +47,28 @@ update_brew() {
     fi
 }
 
-update_poetry() {
-    if command_exists poetry; then
-        task "Upgrading Python Poetry"
-        poetry self update || {
-            error "Update failed. Removing existing poetry installation."
-            [[ -d "$HOME/Library/Application Support/pypoetry" ]] && rm -rf "$HOME/Library/Application Support/pypoetry"
-            [[ -d "$HOME/.local/share/pypoetry" ]] && rm -rf "$HOME/.local/share/pypoetry"
+update_python() {
+    if command_exists uv; then
+        task "Upgrading uv"
+        # Fails when uv is externally managed (Homebrew, apt); that owner upgrades it.
+        uv self update 2>/dev/null || status "uv is externally managed; skipping self-update"
 
-            status "Reinstalling poetry..."
-            curl -sSL https://install.python-poetry.org | python3 -
-        }
+        task "Installing Python CLI tools from python/uv-tools.txt"
+        # Already-installed tools are a no-op, so this doubles as the bootstrap.
+        while read -r tool; do
+            [[ -z ${tool} || ${tool} == \#* ]] && continue
+            # shellcheck disable=SC2086  # word splitting is how extras reach uv
+            uv tool install ${tool}
+        done < python/uv-tools.txt
 
-        status "Adding poetry plugins"
-        poetry self add poetry-plugin-export
+        task "Upgrading Python CLI tools"
+        uv tool upgrade --all
 
-        status "Enabling poetry tab completion"
-        poetry completions bash > "$(brew --prefix)/etc/bash_completion.d/poetry.bash-completion"
-        mkdir -pv "$HOME/.oh-my-zsh/custom/plugins/poetry"
-        poetry completions zsh > "$HOME/.oh-my-zsh/custom/plugins/poetry/_poetry"
+        task "Upgrading uv-managed Python interpreters"
+        # Tolerated: a machine with no uv-managed interpreters must not abort the run.
+        uv python upgrade || status "No uv-managed interpreters to upgrade"
     else
-        error "Poetry is not installed"
-    fi
-}
-
-update_python_packages() {
-    if command_exists poetry; then
-        task "Updating Python system packages using Poetry"
-        poetry update --directory python/system-packages
-    else
-        error "Poetry is not installed"
+        error "uv is not installed -- see https://docs.astral.sh/uv/getting-started/installation/"
     fi
 }
 
@@ -128,6 +120,15 @@ update_completions() {
     for t in docker kubectl cilium tetra op; do
         command_exists "$t" && "$t" completion zsh > "$HOME/.oh-my-zsh/completions/_$t"
     done
+
+    # Tools that spell the subcommand differently.
+    if command_exists uv; then
+        uv generate-shell-completion zsh > "$HOME/.oh-my-zsh/completions/_uv"
+        uvx --generate-shell-completion zsh > "$HOME/.oh-my-zsh/completions/_uvx"
+    fi
+    if command_exists poetry; then
+        poetry completions zsh > "$HOME/.oh-my-zsh/completions/_poetry"
+    fi
 }
 
 
@@ -140,8 +141,7 @@ all=true
 for i in "${@}"; do
     case ${i} in
         brew) brew=true; all=;;
-        poetry) poetry=true; all=;;
-        python) python=true; all=;;
+        python|uv) python=true; all=;;
         conda) conda=true; all=;;
         node) node=true; all=;;
         rust) rust=true; all=;;
@@ -151,8 +151,7 @@ done
 
 # Execute updates based on arguments
 [[ ${brew} ]] || [[ ${all} ]] && update_brew
-[[ ${poetry} ]] || [[ ${all} ]] && update_poetry
-[[ ${python} ]] || [[ ${all} ]] && update_python_packages
+[[ ${python} ]] || [[ ${all} ]] && update_python
 [[ ${conda} ]] || [[ ${all} ]] && update_conda
 [[ ${node} ]] || [[ ${all} ]] && update_node
 [[ ${rust} ]] || [[ ${all} ]] && update_rust

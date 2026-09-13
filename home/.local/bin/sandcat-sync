@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# Sync a sandcat project's agent container with this environment repo.
+#
+#   sandcat-sync <project-dir>
+#
+# Writes three things into the project, all derived from the env repo:
+#   .devcontainer/devbox.tools.json   the `shared` packages from nix/packages.json
+#   .sandcat/settings.json            the canonical network rules (only if absent)
+#   .devcontainer/Dockerfile.app      the dotfiles block, at __AGENT_DOCKER_HOME_PREP__
+#
+# Idempotent -- safe to re-run, and re-run it after any `sandcat init`, which
+# regenerates Dockerfile.app and drops the block.
+
+set -eu
+
+
+# -----------------------------------------------------------------------------
+# Output Formatting Functions
+# -----------------------------------------------------------------------------
+
+task() { printf "\033[34m==> %s\033[0m\n" "$1"; }    # Blue for new tasks
+status() { printf "\033[37m    %s\033[0m\n" "$1"; }  # Grey for status updates
+error() { printf "\033[31m==> %s\033[0m\n" "$1"; }   # Red for errors
+
+
+# -----------------------------------------------------------------------------
+# Locate the Repository and the Project
+# -----------------------------------------------------------------------------
+
+# Normally invoked through the ~/.local/bin symlink, so resolve it before walking up.
+self="${BASH_SOURCE[0]}"
+while [[ -L $self ]]; do self="$(readlink "$self")"; done
+repo="$(cd "$(dirname "$self")/../../.." && pwd)"
+
+[[ -f $repo/nix/packages.json ]] || { error "cannot locate the env repo (resolved: $repo)"; exit 1; }
+
+[[ $# -eq 1 ]] || { error "usage: sandcat-sync <project-dir>"; exit 1; }
+project="$(cd "$1" && pwd)"
+
+[[ -d $project/.devcontainer ]] || {
+    error "$project/.devcontainer not found -- run \`sandcat init\` there first"
+    exit 1
+}
+
+
+# -----------------------------------------------------------------------------
+# Sync Steps
+# -----------------------------------------------------------------------------
+
+sync_devbox_tools() {
+    task "Writing .devcontainer/devbox.tools.json"
+    # python3, not jq: this must work before Nix has provided jq.
+    python3 - "$repo/nix/packages.json" "$project/.devcontainer/devbox.tools.json" <<'PYTHON'
+import json
+import sys
+
+source, target = sys.argv[1], sys.argv[2]
+# No "//" key: devbox parses this into a Go struct and may reject unknown keys.
+rendered = {"packages": sorted(json.load(open(source))["shared"])}
+with open(target, "w") as f:
+    json.dump(rendered, f, indent=2)
+    f.write("\n")
+print(f"    {len(rendered['packages'])} shared packages")
+PYTHON
+}
+
+sync_sandcat_settings() {
+    task "Writing .sandcat/settings.json"
+    local src="$repo/sandcat/settings.json"
+    local dst="$project/.sandcat/settings.json"
+
+    mkdir -p "$project/.sandcat"
+    [[ -f $dst ]] || { cp "$src" "$dst"; status "created $dst"; return 0; }
+    cmp -s "$src" "$dst" && { status "already current"; return 0; }
+
+    # Never clobber: project-specific rules accumulate here and are worth keeping.
+    status "$dst differs from the template -- leaving it alone. Diff:"
+    diff -u "$dst" "$src" | sed 's/^/    /' || true
+}
+
+sync_dockerfile_block() {
+    task "Applying the dotfiles block to .devcontainer/Dockerfile.app"
+    local dockerfile="$project/.devcontainer/Dockerfile.app"
+    local marker="__AGENT_DOCKER_HOME_PREP__"
+
+    [[ -f $dockerfile ]] || { error "$dockerfile not found"; return 1; }
+    grep -q '^# >>> env-dotfiles' "$dockerfile" && { status "block already present"; return 0; }
+    grep -q "$marker" "$dockerfile" || { error "marker $marker not found in $dockerfile"; return 1; }
+
+    python3 - "$dockerfile" "$repo/sandcat/Dockerfile.app.block" "$marker" <<'PYTHON'
+import sys
+
+dockerfile, block_path, marker = sys.argv[1], sys.argv[2], sys.argv[3]
+block = open(block_path).read()
+text = open(dockerfile).read()
+with open(dockerfile, "w") as f:
+    f.write(text.replace(marker, block.rstrip("\n"), 1))
+PYTHON
+    status "inserted at $marker"
+}
+
+
+# -----------------------------------------------------------------------------
+# Main Script Execution
+# -----------------------------------------------------------------------------
+
+status "env repo: $repo"
+status "project:  $project"
+
+sync_devbox_tools
+sync_sandcat_settings
+sync_dockerfile_block
+
+task "Done -- rebuild with: (cd $project && sandcat run --build)"

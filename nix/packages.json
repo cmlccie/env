@@ -1,0 +1,44 @@
+{
+  "//": [
+    "Single source of truth for Nix packages, installed by `devbox global`.",
+    "",
+    "  shared     -> BOTH the host profile AND a project's .devcontainer/devbox.tools.json",
+    "  host_only  -> the host profile alone",
+    "",
+    "Edit this file, then run `./upgrade-packages.sh nix` (host) and",
+    "`sandcat-sync <project>` (agent container). Do not run `devbox global add`:",
+    "this file is authoritative and is pushed with `devbox global pull --force`,",
+    "so a package removed here is removed from the profile.",
+    "",
+    "Libraries and Python CLI tools do NOT belong here -- uv owns everything",
+    "Python, and python/uv-tools.txt is its manifest. Nix supplies only `uv`."
+  ],
+
+  "shared": [
+    "bat@latest",
+    "direnv@latest",
+    "gh@latest",
+    "git@latest",
+    "git-crypt@latest",
+    "helmfile@latest",
+    "jq@latest",
+    "k9s@latest",
+    "kubectl@latest",
+    "kubernetes-helm@latest",
+    "kustomize@latest",
+    "ripgrep@latest",
+    "shellcheck@latest",
+    "terraform-docs@latest",
+    "terragrunt@latest",
+    "tfenv@latest",
+    "tree@latest",
+    "uv@latest",
+    "yq-go@latest"
+  ],
+
+  "host_only": [
+    "gnupg@latest",
+    "kind@latest",
+    "rustup@latest"
+  ]
+}

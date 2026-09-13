@@ -1,0 +1,36 @@
+{
+  "env": {
+    "UV_NATIVE_TLS": "1",
+    "UV_SYSTEM_CERTS": "1"
+  },
+
+  "network": [
+    { "action": "deny", "host": "api.github.com", "method": "POST" },
+    { "action": "deny", "host": "api.github.com", "method": "PUT" },
+    { "action": "deny", "host": "api.github.com", "method": "PATCH" },
+    { "action": "deny", "host": "api.github.com", "method": "DELETE" },
+
+    { "preset": "github" },
+    { "preset": "anthropic" },
+    { "preset": "python" },
+    { "preset": "node" },
+    { "preset": "nix" },
+
+    { "action": "allow", "host": "*.1password.com" },
+    { "action": "allow", "host": "*.1passwordservices.com" },
+    { "action": "allow", "host": "*.1passwordusercontent.com" },
+
+    { "action": "allow", "host": "registry.terraform.io" },
+    { "action": "allow", "host": "releases.hashicorp.com" },
+    { "action": "allow", "host": "checkpoint-api.hashicorp.com" },
+
+    { "action": "allow", "host": "*.amazonaws.com" },
+    { "action": "allow", "host": "*.eks.amazonaws.com" },
+    { "action": "allow", "host": "registry.k8s.io" },
+    { "action": "allow", "host": "*.pkg.dev" },
+    { "action": "allow", "host": "get.helm.sh" },
+    { "action": "allow", "host": "charts.helm.sh" },
+
+    { "action": "allow", "host": "raw.githubusercontent.com" }
+  ]
+}

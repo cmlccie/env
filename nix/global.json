@@ -1,0 +1,26 @@
+{
+  "packages": [
+    "bat@latest",
+    "direnv@latest",
+    "gh@latest",
+    "git-crypt@latest",
+    "git@latest",
+    "gnupg@latest",
+    "helmfile@latest",
+    "jq@latest",
+    "k9s@latest",
+    "kind@latest",
+    "kubectl@latest",
+    "kubernetes-helm@latest",
+    "kustomize@latest",
+    "ripgrep@latest",
+    "rustup@latest",
+    "shellcheck@latest",
+    "terraform-docs@latest",
+    "terragrunt@latest",
+    "tfenv@latest",
+    "tree@latest",
+    "uv@latest",
+    "yq-go@latest"
+  ]
+}

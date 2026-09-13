@@ -35,12 +35,47 @@ error() {
 # Package Update Functions
 # --------------------------------------------------------------------------------------
 
+update_nix() {
+    if command_exists devbox; then
+        task "Rendering the devbox global manifest from nix/packages.json"
+        # python3 rather than jq: this must work before Nix has provided jq.
+        python3 - <<'PYTHON'
+import json
+
+manifest = json.load(open("nix/packages.json"))
+# No "//" key here: devbox parses devbox.json into a Go struct, and an unknown
+# key may be rejected. nix/packages.json carries the documentation.
+rendered = {"packages": sorted(manifest["shared"] + manifest["host_only"])}
+with open("nix/global.json", "w") as f:
+    json.dump(rendered, f, indent=2)
+    f.write("\n")
+PYTHON
+
+        task "Syncing the devbox global profile"
+        # `pull --force` makes nix/global.json authoritative, so a package deleted from
+        # nix/packages.json leaves the profile too. `devbox global add` cannot do that.
+        devbox global pull --force nix/global.json
+        devbox global install
+        devbox global update
+    else
+        error "devbox is not installed -- curl -fsSL https://get.jetify.com/devbox | bash"
+    fi
+}
+
 update_brew() {
     if command_exists brew; then
         task "Upgrading Homebrew Packages"
+        # No `brew doctor`: once Nix is installed it warns permanently about the /nix
+        # volume and unbrewed files, which trains you to ignore the output.
         brew update
-        brew doctor || status "Brew doctor encountered issues, continuing..."
         brew upgrade --yes
+        # Enforce the Brewfile rather than merely documenting it. `if`, not `&&`: under
+        # `set -e` a false `&&` list here would abort the run on Linux.
+        # NOTE: this fails until the hand-installed GUI apps are adopted --
+        #   brew install --cask --adopt docker-desktop visual-studio-code iterm2
+        if [[ $(uname) == Darwin ]]; then
+            brew bundle --file platforms/macos/Brewfile
+        fi
         brew cleanup
     else
         error "Homebrew is not installed"
@@ -140,6 +175,7 @@ update_completions() {
 all=true
 for i in "${@}"; do
     case ${i} in
+        nix) nix=true; all=;;
         brew) brew=true; all=;;
         python|uv) python=true; all=;;
         conda) conda=true; all=;;
@@ -150,6 +186,7 @@ for i in "${@}"; do
 done
 
 # Execute updates based on arguments
+[[ ${nix} ]] || [[ ${all} ]] && update_nix
 [[ ${brew} ]] || [[ ${all} ]] && update_brew
 [[ ${python} ]] || [[ ${all} ]] && update_python
 [[ ${conda} ]] || [[ ${all} ]] && update_conda

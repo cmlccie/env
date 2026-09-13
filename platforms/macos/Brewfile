@@ -1,31 +1,28 @@
-tap "homebrew/cask"
-tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
+# Homebrew is now GUI casks plus the few CLIs Nix cannot serve on macOS.
+# Every other command-line tool comes from `devbox global` -- see nix/packages.json.
+#
+# The old homebrew/core, homebrew/cask, homebrew/bundle, and homebrew/cask-fonts taps
+# were removed: all four are deprecated no-ops in current Homebrew.
+#
+# `brew bundle cleanup --file platforms/macos/Brewfile` removes anything not listed
+# here, so a formula omitted by accident is uninstalled. Always --dry-run first.
 
-brew "awscli"
-brew "bash"
-brew "bash-completion"
-brew "direnv"
-brew "fortune"
-brew "git"
-brew "gh"
-brew "gnupg"
-brew "go"
-brew "graphviz"
-brew "node"
-brew "openssl"
-brew "pinentry"
+tap "chipmk/tap"
+
+# Tetragon CLI. nixpkgs `tetragon` ships bin/tetra but is platforms.linux only, and
+# builds from source (clang, llvm, go) -- so it stays with brew on macOS.
+brew "tetra"
+# GPG pinentry for the macOS keychain. GUI-adjacent; the container never signs.
 brew "pinentry-mac"
-brew "readline"
-brew "shellcheck"
-brew "sqlite"
-brew "terraform"
-brew "tree"
-brew "uv"
-brew "wget"
-brew "xz"
-brew "zlib"
-brew "zsh"
+# Routes Docker Desktop container traffic on macOS.
+brew "chipmk/tap/docker-mac-net-connect"
 
+# 1Password CLI stays a cask so desktop-app biometric unlock keeps working; the agent
+# container installs `op` from 1Password's apt repo instead.
+cask "1password-cli"
+# Claude Code self-updates, which a read-only Nix store cannot do.
+cask "claude-code@latest"
+cask "docker-desktop"
 cask "font-hack-nerd-font"
+cask "iterm2"
+cask "visual-studio-code"

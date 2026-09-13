@@ -81,6 +81,60 @@ reset_global_git_ignore() {
     status "unset core.excludesfile (was: $current)"
 }
 
+ensure_system_login_shell() {
+    task "Ensuring the login shell is /bin/zsh"
+    # The devbox global profile is a nix generations symlink under ~/.local/share, which
+    # must never be a login shell; brew's zsh is going away. macOS ships zsh 5.9.
+    # dscl is macOS-only and fails inside sandboxes; $SHELL is the portable fallback.
+    local current=""
+    if command_exists dscl; then
+        current="$(dscl . -read "/Users/$USER" UserShell 2>/dev/null | awk '{print $2}')" || true
+    fi
+    [[ -n $current ]] || current="${SHELL:-}"
+    [[ $current == /bin/zsh ]] && status "already /bin/zsh" && return 0
+    [[ -x /bin/zsh ]] || { status "/bin/zsh not present; skipping"; return 0; }
+
+    status "login shell is ${current:-unknown} -- chsh will prompt for your password"
+    chsh -s /bin/zsh && status "login shell -> /bin/zsh"
+}
+
+unpin_gpg_program() {
+    task "Unpinning git's gpg.program from an absolute path"
+    # ~/.gitconfig pinned /opt/homebrew/bin/gpg while commit.gpgsign is true, so removing
+    # the Homebrew gnupg would break every signed commit. Let PATH resolve it instead.
+    local current
+    current="$(git config --global --get gpg.program || true)"
+    [[ $current == /* ]] || { status "gpg.program is not an absolute path"; return 0; }
+
+    git config --global gpg.program gpg
+    status "gpg.program: $current -> gpg"
+}
+
+migrate_tfenv_root() {
+    task "Moving the tfenv version root to its XDG data location"
+    # The nixpkgs tfenv wrapper defaults TFENV_CONFIG_DIR to $XDG_DATA_HOME/tfenv;
+    # Homebrew's tfenv used ~/.config/tfenv. Without this, installed Terraform
+    # versions and the pinned .terraform-version silently disappear.
+    local src="${XDG_CONFIG_HOME:-$HOME/.config}/tfenv"
+    local dst="${XDG_DATA_HOME:-$HOME/.local/share}/tfenv"
+    [[ -d $src ]] || { status "no $src to move"; return 0; }
+    [[ -e $dst ]] && { status "$dst already exists; leaving $src in place"; return 0; }
+
+    mv "$src" "$dst" && status "moved $src -> $dst"
+}
+
+install_nix_packages() {
+    task "Installing Nix packages via devbox global"
+    command_exists devbox || { status "devbox is not installed; skipping"; return 0; }
+    "$repo/upgrade-packages.sh" nix
+}
+
+restart_gpg_agent() {
+    task "Restarting gpg-agent"
+    # Picks up the new pinentry and gpg paths without a logout.
+    command_exists gpgconf && gpgconf --kill gpg-agent || true
+}
+
 regenerate_completions() {
     task "Regenerating shell completions"
     "$repo/upgrade-packages.sh" completions
@@ -113,8 +167,15 @@ verify() {
         if [[ $n -eq 0 ]]; then status "$shell is silent"; else error "$shell emits $n bytes -- expected 0"; fi
     done
 
-    command_exists git && status "git -> $(command -v git)"
     status "PATH duplicates: $(bash -lc 'echo $PATH' | tr : '\n' | sort | uniq -d | wc -l | tr -d ' ')"
+
+    # After the migration each of these should resolve under the devbox global profile
+    # (or ~/.local/bin for uv tool binaries) -- never /opt/homebrew/bin.
+    for t in git kubectl yq uv terraform helm gpg; do
+        command_exists "$t" && status "$t -> $(command -v "$t")"
+    done
+    command_exists devbox && status "devbox global -> $(devbox global path 2>/dev/null)"
+    return 0
 }
 
 
@@ -124,7 +185,12 @@ verify() {
 
 remove_legacy_dotfiles
 install_dotfiles
+ensure_system_login_shell
 reset_global_git_ignore
+unpin_gpg_program
+migrate_tfenv_root
+install_nix_packages
+restart_gpg_agent
 regenerate_completions
 link_current_node
 report_backups

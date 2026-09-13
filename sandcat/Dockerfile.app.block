@@ -1,0 +1,57 @@
+# >>> env-dotfiles (managed by home/.local/bin/sandcat-sync -- do not edit by hand) >>>
+# Inserted at sandcat's home-prep marker, i.e. after its devbox layer and after its Java
+# block. Order matters: the Java block appends to ~/.bashrc, and once setup-home.py has
+# run that path is a symlink into the clone. (The marker name is spelled only in
+# sandcat-sync -- repeating it here would reintroduce the token this block replaced.)
+USER root
+
+# python3 runs setup-home.py. locales matters more than it looks: env.sh exports
+# LC_ALL=en_US.UTF-8, and without the locale every bash prints a setlocale warning --
+# exactly the noise the repo's four-shell silence check exists to catch.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl git gnupg \
+      locales python3-minimal \
+ && sed -i 's/^# *en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen && locale-gen \
+ && rm -rf /var/lib/apt/lists/*
+
+# Clone OUTSIDE /home/vscode. That directory is the `agent-home` named volume, seeded
+# from the image only on first creation, so anything written there later is masked.
+# From /opt the symlinks setup-home.py creates are absolute paths into an image layer,
+# so editing a dotfile's CONTENT reaches the container on a plain rebuild. Adding or
+# removing a file under home/ still needs `sandcat compose down -v`.
+ARG ENV_REPO=https://github.com/cmlccie/env
+ARG ENV_REF=main
+RUN git clone --depth 1 --branch "${ENV_REF}" "${ENV_REPO}" /opt/env \
+ && chown -R vscode:vscode /opt/env
+
+# 1Password CLI from the vendor apt repo. Not from Nix: _1password-cli is unfree, devbox
+# has no allowUnfree setting, and this layer runs after sandcat's devbox build so we
+# cannot reach that build's environment to set NIXPKGS_ALLOW_UNFREE.
+RUN curl -fsSL https://downloads.1password.com/linux/keys/1password.asc \
+      | gpg --dearmor -o /usr/share/keyrings/1password-archive-keyring.gpg \
+ && ARCH="$(dpkg --print-architecture)" \
+ && echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/${ARCH} stable main" \
+      > /etc/apt/sources.list.d/1password.list \
+ && apt-get update && apt-get install -y --no-install-recommends 1password-cli \
+ && rm -rf /var/lib/apt/lists/*
+
+# Tetragon CLI from the pinned release tarball. nixpkgs `tetragon` is platforms.linux
+# only AND builds from source (clang, llvm, go) -- roughly 2 GB and many minutes.
+ARG TETRA_VERSION=v1.7.1
+RUN ARCH="$(dpkg --print-architecture)" \
+ && curl -fsSL -o /tmp/tetra.tar.gz \
+      "https://github.com/cilium/tetragon/releases/download/${TETRA_VERSION}/tetra-linux-${ARCH}.tar.gz" \
+ && tar -C /usr/local/bin -xzf /tmp/tetra.tar.gz tetra \
+ && rm /tmp/tetra.tar.gz
+
+USER vscode
+RUN /opt/env/setup-home.py >/dev/null
+
+# Remove the machine-wide Claude settings this repo deploys. It sets
+# sandbox.enabled + failIfUnavailable, which needs bubblewrap and unprivileged user
+# namespaces; this base image has neither and no-new-privileges blocks setuid bwrap, so
+# Claude Code would refuse to run Bash at all. Sandcat's proxy and container boundary
+# are the isolation here. Deleting also stops sandcat's `rtk init --auto-patch` from
+# writing through the symlink into /opt/env.
+RUN rm -f /home/vscode/.claude/settings.json
+# <<< env-dotfiles <<<

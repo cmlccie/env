@@ -10,6 +10,11 @@ export HOMEBREW_NO_ENV_HINTS=1
 [ -n "$HOMEBREW_PREFIX" ] && path_prepend "$HOMEBREW_PREFIX/sbin"
 [ -n "$HOMEBREW_PREFIX" ] && path_prepend "$HOMEBREW_PREFIX/bin"
 
+# Nix via devbox global -- fork-free equivalent of `eval "$(devbox global shellenv)"`.
+# `default` is a nix-profile generations symlink; path_prepend's [ -d ] follows it, so
+# this is a no-op until devbox is installed and again if it is removed.
+path_prepend "$XDG_DATA_HOME/devbox/global/default/.devbox/nix/profile/default/bin"
+
 # GUI-installed CLIs -- appended so they never shadow a real binary
 path_append "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 path_append "$HOME/.lmstudio/bin"

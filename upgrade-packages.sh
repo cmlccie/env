@@ -58,7 +58,7 @@ update_python() {
         while read -r tool; do
             [[ -z ${tool} || ${tool} == \#* ]] && continue
             # shellcheck disable=SC2086  # word splitting is how extras reach uv
-            uv tool install ${tool}
+            uv tool install ${tool} --force
         done < python/uv-tools.txt
 
         task "Upgrading Python CLI tools"

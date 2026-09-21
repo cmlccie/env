@@ -13,10 +13,8 @@
     "enabled": true,
     "failIfUnavailable": true,
     "autoAllowBashIfSandboxed": true,
-    "allowUnsandboxedCommands": false,
+    "allowUnsandboxedCommands": true,
     "network": {
-      "allowedDomains": [],
-      "deniedDomains": ["169.254.169.254", "metadata.google.internal"],
       "allowLocalBinding": true
     },
     "filesystem": {

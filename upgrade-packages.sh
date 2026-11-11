@@ -91,7 +91,9 @@ update_node() {
 
             status "Installing the latest npm"
             nvm install-latest-npm
+        fi
 
+        if command_exists corepack; then
             status "Installing the latest yarn package manager"
             corepack enable
             corepack prepare yarn@stable --activate

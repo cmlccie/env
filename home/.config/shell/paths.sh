@@ -27,6 +27,9 @@ export NVM_DIR="$HOME/.nvm"
 export NVM_SYMLINK_CURRENT=true
 path_prepend "$NVM_DIR/current/bin"
 
+# Java
+path_prepend "/opt/homebrew/opt/openjdk/bin"
+
 path_prepend "$HOME/.opencode/bin"
 path_prepend "$HOME/.local/bin"
 
